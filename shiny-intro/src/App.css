@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
+
+body {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    /* Ensuring reset if not already there */
+}
+
+.app-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background-color: white;
+    color: #000;
+}
+
+.scene-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.white-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* Product Hero Section */
+.product-hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.category-label {
+    position: absolute;
+    left: 4rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    /* font-family: 'Inter', sans-serif; - Inherited from body */
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    transform-origin: left center;
+    white-space: nowrap;
+}
+
+.hero-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 60vh;
+    /* Occupy majority of height */
+    position: relative;
+}
+
+.hero-item {
+    position: absolute;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-item img {
+    height: 50vh;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+}
+
+.hero-item.active {
+    z-index: 10;
+    transform: scale(1) translateX(0);
+    opacity: 1;
+    filter: blur(0);
+}
+
+.hero-item.left {
+    z-index: 5;
+    transform: scale(0.8) translateX(-400px);
+    /* Adjust distance */
+    opacity: 0.4;
+    filter: blur(4px) grayscale(100%);
+    cursor: pointer;
+}
+
+.hero-item.right {
+    z-index: 5;
+    transform: scale(0.8) translateX(400px);
+    opacity: 0.4;
+    filter: blur(4px) grayscale(100%);
+    cursor: pointer;
+}
+
+.hero-text-content {
+    text-align: center;
+    margin-top: 2rem;
+    z-index: 20;
+}
+
+.hero-product-title {
+    /* font-family: 'Playfair Display', serif; */
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+.hero-product-desc {
+    /* font-family: 'Inter', sans-serif; - Inherited from body */
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hero-cta {
+    margin-top: 2rem;
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    padding: 1rem 3rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-cta:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* Hide original MainContent stuff or delete */
+.home-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.home-header {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.logo-small {
+    font-size: 1.5rem;
+    /* Or use an img if better */
+    filter: grayscale(1);
+}
+
+.carousel-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4rem;
+    /* Space for footer */
+}
+
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    height: 400px;
+    /* Adjust as needed */
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.carousel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.carousel-item img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    /* Optional shadow for the clothing items */
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+}
+
+.active-item {
+    z-index: 2;
+    height: 100%;
+}
+
+.side-item {
+    z-index: 1;
+    height: 60%;
+    cursor: pointer;
+    position: relative;
+    /* For arrows */
+}
+
+.side-item h3 {
+    margin-top: 1rem;
+    /* font-family: 'Playfair Display', serif; */
+    font-size: 1rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.nav-arrow:hover {
+    background: #f0f0f0;
+    border-color: #000;
+}
+
+.nav-arrow.left {
+    left: -60px;
+    /* Push out of the image area */
+}
+
+.nav-arrow.right {
+    right: -60px;
+}
+
+.product-details {
+    text-align: center;
+    margin-top: 2rem;
+    max-width: 600px;
+}
+
+.product-details h1 {
+    /* font-family: 'Playfair Display', serif; */
+    font-size: 4rem;
+    margin: 0;
+    font-weight: 700;
+    color: #000;
+}
+
+.pagination-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #000;
+}
+
+.product-details p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.cta-button {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    background: #222;
+}
+
+.home-footer {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.footer-links li {
+    cursor: pointer;
+}
+
+/* Hide original MainContent stuff or delete */
+.main-content {
+    display: none;
+}
+
+/* Section Common Styles */
+section {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 4rem 2rem;
+    box-sizing: border-box;
+}
+
+/* Hero Section */
+.hero-section {
+    align-items: center;
+    text-align: center;
+}
+
+.hero-title {
+    /* font-family: 'Playfair Display', serif; */
+    font-size: 6rem;
+    /* Huge impact */
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+}
+
+.hero-subtitle {
+    /* font-family: 'Inter', sans-serif; - Inherited from body */
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #666;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    animation: bounce 2s infinite;
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Editorial Section */
+.editorial-section {
+    background-color: #f9f9f9;
+    /* Slight contrast */
+}
+
+.editorial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.editorial-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.editorial-item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    background-color: #eee;
+    filter: brightness(0.95);
+}
+
+.editorial-item.offset {
+    margin-top: 8rem;
+    /* Asymmetrical look */
+}
+
+.section-label {
+    /* font-family: 'Inter', sans-serif; - Inherited from body */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    color: #999;
+    text-align: center;
+}
