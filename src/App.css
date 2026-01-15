@@ -117,7 +117,7 @@ body {
 }
 
 .hero-product-title {
-    /* font-family: 'Playfair Display', serif; */
+    font-family: "Rosemartin", serif;
     font-size: 4rem;
     font-weight: 700;
     margin: 0;
@@ -235,7 +235,7 @@ body {
 
 .side-item h3 {
     margin-top: 1rem;
-    /* font-family: 'Playfair Display', serif; */
+    font-family: "Rosemartin", serif;
     font-size: 1rem;
     opacity: 0.7;
     text-transform: uppercase;
@@ -281,7 +281,7 @@ body {
 }
 
 .product-details h1 {
-    /* font-family: 'Playfair Display', serif; */
+    font-family: "Rosemartin", serif;
     font-size: 4rem;
     margin: 0;
     font-weight: 700;
@@ -333,24 +333,7 @@ body {
     background: #222;
 }
 
-.home-footer {
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
-}
-
-.footer-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.footer-links li {
-    cursor: pointer;
-}
+/* Footer styles removed - now handled in Footer.jsx component */
 
 /* Hide original MainContent stuff or delete */
 .main-content {
@@ -376,7 +359,7 @@ section {
 }
 
 .hero-title {
-    /* font-family: 'Playfair Display', serif; */
+    font-family: "Rosemartin", serif;
     font-size: 6rem;
     /* Huge impact */
     font-weight: 700;

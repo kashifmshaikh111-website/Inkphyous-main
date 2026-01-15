@@ -12,6 +12,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Center, Environment } from "@react-three/drei";
 
 // 3D Model Component
+// 3D Model Component
 function SpinningModel({ url }) {
   const group = useRef();
   const { scene } = useGLTF(url);
@@ -30,6 +31,7 @@ function SpinningModel({ url }) {
 }
 
 export default function Header({ openShopAll }) {
+  // ... (state and hooks remain the same) ...
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
@@ -94,10 +96,10 @@ export default function Header({ openShopAll }) {
   }, []);
 
   const cartItemCount = cartItems.length;
-const isProductPage =
-  location.pathname.includes("/product") ||
-  location.pathname.includes("/contact") ||
-  location.pathname.includes("/legal");
+  const isProductPage =
+    location.pathname.includes("/product") ||
+    location.pathname.includes("/contact") ||
+    location.pathname.includes("/legal");
 
   const searchVariants = {
     hidden: { width: 0, opacity: 0 },
@@ -124,15 +126,17 @@ const isProductPage =
         )}
       </AnimatePresence>
 
-      {/* Header */}
+      {/* Floating Editorial Header */}
       <header
-       className={`bg-white h-[50px] py-6  text-black fixed top-0 left-0 w-full z-50 transition-all duration-300`}
-
+        className={`bg-white/60 backdrop-blur-[2px] h-[50px] py-6 text-black fixed top-0 left-0 w-full z-50 transition-all duration-300`}
+        style={{
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
+        }}
       >
         <div className="mx-auto px-4 mt-2 flex items-center justify-between relative">
 
           {/* Mobile Menu */}
-         
+
 
           {/* Back Button */}
           {isProductPage && (
@@ -152,7 +156,7 @@ const isProductPage =
           {/* Center 3D Logo */}
           <div
             onClick={() => navigate("/")}
-            className="absolute md:mt-4 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[120px] cursor-pointer"
+            className="absolute md:mt-4 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[150px] cursor-pointer"
           >
             <Canvas camera={{ position: [0, 2, 10], fov: 50 }}>
               <ambientLight intensity={0.8} />

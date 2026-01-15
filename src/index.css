@@ -160,3 +160,61 @@ body {
   height: 100%;
   z-index: 10;
 }
+
+/* Premium 3D Product Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes rotate3D {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes tiltOnHover {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+
+  100% {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+  }
+}
+
+.product-3d-float {
+  animation: float 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+}
+
+.product-3d-float:hover {
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 35px 60px rgba(0, 0, 0, 0.25));
+  transform: scale(1.05);
+}

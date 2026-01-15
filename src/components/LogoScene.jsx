@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 function Logo({ zooming, onZoomEnd, onClick }) {
@@ -34,19 +34,14 @@ function Logo({ zooming, onZoomEnd, onClick }) {
         const offset = center.multiplyScalar(-1);
         model.position.copy(offset);
 
-        // Adjust for visual center (move down to center properly)
-        model.position.y -= size.y * 0.2;
+        // Adjust for visual center (move down even further)
+        model.position.y -= size.y * 2.3;
+
+        // Adjust for horizontal center (move right slightly)
+        model.position.x += size.x * 0.15;
 
         // Scale
-        model.scale.set(4, 4, 4);
-
-        // Apply materials
-        model.traverse((child) => {
-            if (child.isMesh && child.material) {
-                child.material.metalness = 0;
-                child.material.roughness = 0.8;
-            }
-        });
+        model.scale.set(6, 6, 6);
 
         // Add to scene
         modelRef.current.add(model);
@@ -88,8 +83,9 @@ function Logo({ zooming, onZoomEnd, onClick }) {
             root.current.scale.multiplyScalar(1 + delta * speed);
 
             // Compensate Y position to keep centered during scale
-            const scaleDiff = root.current.scale.x - prevScale;
-            root.current.position.y -= scaleDiff * 0.2;
+            // Removed compensation to keep logo centered
+            // const scaleDiff = root.current.scale.x - prevScale;
+            // root.current.position.y -= scaleDiff * 0.2;
 
             // Gentle FOV compression
             state.camera.fov = THREE.MathUtils.lerp(
@@ -136,7 +132,7 @@ export default function LogoScene({ onIntroComplete }) {
         setFading(true);
         setTimeout(() => {
             onIntroComplete();
-        }, 200); // Quick flash, then reveal
+        }, 800); // Longer white screen delay for smoother transition
     };
 
     return (
@@ -158,7 +154,7 @@ export default function LogoScene({ onIntroComplete }) {
                     inset: 0,
                     background: "white",
                     opacity: fading ? 1 : 0,
-                    transition: "opacity 200ms ease-in",
+                    transition: "opacity 600ms ease-in-out",
                     pointerEvents: "none",
                     zIndex: 10000,
                 }}
@@ -168,14 +164,15 @@ export default function LogoScene({ onIntroComplete }) {
                 style={{ width: "100vw", height: "100vh" }}
                 camera={{ position: [0, 0, 10], fov: 45 }}
             >
-                <ambientLight intensity={1.2} />
-                <directionalLight position={[5, 5, 5]} intensity={0.6} />
+                <ambientLight intensity={0.8} />
+                <directionalLight position={[5, 5, 5]} intensity={1} />
 
                 <Logo
                     zooming={zooming}
                     onClick={() => setZooming(true)}
                     onZoomEnd={handleZoomEnd}
                 />
+                <Environment preset="sunset" />
             </Canvas>
         </div>
     );

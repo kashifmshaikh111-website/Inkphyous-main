@@ -36,13 +36,13 @@ function App() {
   return (
     <div
       style={{
-        zoom: "70%",
-        animation: "fadeIn 800ms ease-out",
+        zoom: "75%",
+        animation: "fadeIn 1200ms ease-out",
         opacity: 1
       }}
     >
       {/* Always show Header */}
-      <Header />
+      < Header />
 
       <Routes>
         {/* <Route path="/" element={<Welcome />} /> */}
@@ -54,9 +54,8 @@ function App() {
         <Route path="/legal" element={<Legal />} />
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
-      <Footer />
       <Analytics />
-    </div>
+    </div >
   );
 }
 

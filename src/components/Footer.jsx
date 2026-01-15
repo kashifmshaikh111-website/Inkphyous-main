@@ -2,43 +2,47 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full secondary bg-white text-black p-4 sm:p-6 md:p-8">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-xs tracking-wide">
-        
-        {/* Empty spacer for desktop layout */}
-        <div className="hidden md:block mb-0 md:mb-12"></div>
+    <footer
+      className="py-6 relative w-full shrink-0 translation-all duration-300"
+      style={{
+        background: 'transparent',
+        color: '#000000', // Pure black for maximum visibility
+      }}
+    >
+      <div className="w-full px-12">
 
-        {/* Links Section */}
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center md:justify-end gap-4 sm:gap-6 md:gap-8 lg:gap-12 xl:gap-18 text-base sm:text-lg w-full md:w-auto">
-          
-          {/* Currency Selector
-          <select className="bg-transparent outline-none cursor-pointer text-base sm:text-lg border-none focus:ring-0 text-center sm:text-left order-1">
-            <option>India (INR ₹)</option>
-            <option>UAE (EUR €)</option>
-          </select> */}
-          
+        {/* Footer links aligned to RIGHT edge */}
+        <div className="flex justify-end items-center gap-8 text-lg font-normal tracking-wide">
+
           {/* Contact Link */}
-          <a 
-            href="contact" 
-            className="hover:opacity-60 transition-opacity hover:underline order-2"
+          <a
+            href="contact"
+            className="transition-colors duration-200"
+            style={{ ':hover': { color: '#0f172a' } }}
+            onMouseEnter={(e) => e.target.style.color = '#0f172a'}
+            onMouseLeave={(e) => e.target.style.color = 'inherit'}
           >
             Contact
           </a>
-          
+
           {/* Legalities Link */}
-          <a 
-            href="/legal" 
-            className="hover:opacity-60 transition-opacity hover:underline order-3"
+          <a
+            href="/legal"
+            className="transition-colors duration-200"
+            onMouseEnter={(e) => e.target.style.color = '#0f172a'}
+            onMouseLeave={(e) => e.target.style.color = 'inherit'}
           >
             Legalities
           </a>
-          
+
           {/* Social Link */}
           <a
             href="https://instagram.com/inkphyous"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-60 transition-opacity hover:underline order-4"
+            className="transition-colors duration-200"
+            onMouseEnter={(e) => e.target.style.color = '#0f172a'}
+            onMouseLeave={(e) => e.target.style.color = 'inherit'}
           >
             Social
           </a>
