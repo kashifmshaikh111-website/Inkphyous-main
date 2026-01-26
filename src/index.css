@@ -43,9 +43,33 @@ body {
   font-family: 'down';
 }
 
-.title {
   font-family: 'Rosemartin';
-  font-weight: bold
+  font-weight: bold;
+}
+
+/* Soft Background - Matches Home page exactly */
+.soft-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.soft-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ececeb;
+}
+
+.soft-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 80% at 50% 10%,
+      #ffffff 0%,
+      #f6f6f4 35%,
+      #ececeb 65%,
+      #e5e5e3 100%);
 }
 
 /* Other global styles... */
@@ -68,6 +92,13 @@ body {
 }
 
 /* Other global styles... */
+
+/* Font smoothing for crisp text */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
 @import "tailwindcss";
 
@@ -217,4 +248,33 @@ body {
   animation: float 3s ease-in-out infinite;
   filter: drop-shadow(0 35px 60px rgba(0, 0, 0, 0.25));
   transform: scale(1.05);
+}
+
+/* ===== PRODUCT CAROUSEL - PRODUCTION GRADE ===== */
+/* Single source of truth for transforms - NO inline transitions */
+.carousel-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.carousel-item {
+  position: absolute;
+  will-change: transform, opacity;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.carousel-item img {
+  height: 44vh;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
 }

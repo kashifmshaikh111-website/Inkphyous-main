@@ -1,51 +1,58 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 export default function LegalitiesPage() {
+  const navigate = useNavigate();
   const [activePage, setActivePage] = useState('home');
 
   const renderHome = () => (
-    <div className="min-h-screen mt-8 sm:mt-12 bg-white flex items-center justify-center px-4">
-      <div className="w-full sm:w-[95%] lg:w-[90%] flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 lg:gap-0">
+    <div className="min-h-screen pt-32 pb-12 bg-white flex items-center justify-center px-4 relative">
+      {/* BACK BUTTON */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+      >
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
+          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        </div>
+        <span className="font-medium text-sm sm:text-base">Back</span>
+      </button>
 
+      <div className="w-full grid grid-cols-1 md:grid-cols-[49%_52%] mt-16 sm:mt-0">
         {/* Left Section - Legalities */}
-        <div className="w-full lg:flex-1 flex justify-center lg:justify-start">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl title font-bold text-gray-900 tracking-tight text-center lg:text-left">
+        <div className="w-full flex justify-center md:items-center md:justify-center p-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl title font-bold text-gray-900 tracking-tight text-center">
             Legalities
           </h1>
         </div>
 
-        {/* Vertical Line - Hidden on mobile */}
-        <div className="hidden lg:block h-64 xl:h-96 w-px bg-red-500 mx-8 xl:mx-16"></div>
-
-        {/* Horizontal Line - Visible only on mobile */}
-        <div className="block lg:hidden w-full h-px bg-red-500"></div>
-
         {/* Right Section - Buttons */}
-        <div className="w-full lg:flex-1 flex title flex-col items-center lg:items-end space-y-4 sm:space-y-6 lg:space-y-8">
+        <div className="w-full flex title flex-col items-center justify-center space-y-4 sm:space-y-6 lg:space-y-8 p-8 border-t md:border-t-0 md:border-l border-red-500">
           <button
             onClick={() => setActivePage('privacy')}
-            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center lg:text-left"
+            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center"
           >
             Privacy & Policy
           </button>
 
           <button
             onClick={() => setActivePage('terms')}
-            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center lg:text-left"
+            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center"
           >
             Terms & Conditions
           </button>
 
           <button
             onClick={() => setActivePage('shipping')}
-            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center lg:text-left"
+            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center"
           >
             Shipping Policy
           </button>
 
           <button
             onClick={() => setActivePage('returns')}
-            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center lg:text-left"
+            className="block text-xl sm:text-2xl title font-semibold text-gray-700 hover:text-red-500 cursor-pointer transition-colors duration-300 text-center"
           >
             Return & Exchange Policy
           </button>
@@ -56,8 +63,19 @@ export default function LegalitiesPage() {
 
 
   const renderPolicyPage = (title, content) => (
-    <div className="min-h-screen mt-8 sm:mt-12 bg-white p-4 sm:p-6 md:p-8">
-      <div className="w-full sm:w-[95%] mt-6 lg:w-[90%] mx-auto">
+    <div className="min-h-screen pt-32 pb-12 bg-white px-4 sm:px-6 md:px-8 relative">
+      {/* BACK BUTTON */}
+      <button
+        onClick={() => setActivePage('home')}
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+      >
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
+          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        </div>
+        <span className="font-medium text-sm sm:text-base">Back</span>
+      </button>
+
+      <div className="w-full sm:w-[95%] mt-16 sm:mt-6 lg:w-[90%] mx-auto">
         {/* Page Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl title font-bold text-gray-900 text-center mb-8 sm:mb-10 md:mb-12">
           {title}

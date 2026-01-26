@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Opener from "./components/3DModel";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home"
@@ -9,6 +9,9 @@ import Checkout from "./pages/Checkout";
 import PDPC from "./pages/PDPC";
 import Legal from "./pages/Legal";
 import ContactUs from "./pages/ContactUs";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "./components/Footer";
 import LogoScene from "./components/LogoScene";
@@ -16,9 +19,11 @@ import "./App.css";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
+  const navigate = useNavigate();
 
   const handleIntroComplete = () => {
     setShowIntro(false);
+    navigate('/'); // Ensure we start at Home
   };
 
   // Show logo intro first
@@ -53,6 +58,9 @@ function App() {
         <Route path="/pdpc/:id" element={<PDPC />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Analytics />
     </div >

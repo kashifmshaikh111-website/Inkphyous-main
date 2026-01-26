@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ContactUs = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -26,9 +28,20 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-8 sm:py-12 md:py-0 md:px-0">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 pt-32 pb-12 md:px-0 relative">
+      {/* BACK BUTTON */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+      >
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
+          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        </div>
+        <span className="font-medium text-sm sm:text-base">Back</span>
+      </button>
+
       {/* GRID SECTION */}
-      <div className="w-full  grid grid-cols-1 md:grid-cols-2 md:pr-6">
+      <div className="w-full grid grid-cols-1 md:grid-cols-[49%_52%]">
 
         {/* LEFT SIDE */}
         <div className="flex flex-col text-center justify-center px-4 sm:px-6 md:px-12 py-8 sm:py-10 md:py-12">

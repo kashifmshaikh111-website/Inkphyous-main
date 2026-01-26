@@ -45,204 +45,170 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col relative"
-      style={{
-        // Global background - slightly darkened for contrast separation (Fix 3)
-        background: '#ececeb',
-      }}
-    >
-      {/* DIRECTIONAL lighting - Pulled upward and tighter (Fix 2) */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 100% 60% at 50% 15%, 
-              rgba(255, 255, 255, 1.0) 0%,
-              rgba(250, 250, 248, 0.8) 25%,
-              rgba(240, 240, 238, 0.4) 45%,
-              transparent 70%)
-          `,
-        }}
-      />
+    <div className="relative min-h-screen w-full overflow-x-hidden text-[#0f172a]">
 
+      {/* GLOBAL BACKGROUND SYSTEM */}
+      <div className="fixed inset-0 -z-20">
+        <div className="absolute inset-0 bg-[#ececeb]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse 120% 80% at 50% 10%,
+                #ffffff 0%,
+                #f6f6f4 35%,
+                #ececeb 65%,
+                #e5e5e3 100%)
+            `
+          }}
+        />
+      </div>
 
-
-      {/* Main Content - Hero section */}
+      {/* HERO SECTION - Full bleed */}
       <section
-        className="flex-1 flex items-center justify-center relative pt-20 pb-4"
+        className="relative w-full h-[64vh] md:h-[68vh] flex justify-center pt-20"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        {/* Left Arrow */}
-        <button
-          onClick={prevProduct}
-          className="absolute left-[5%] md:left-[10%] lg:left-[15%] z-30 p-3 bg-white/60 backdrop-blur-sm border border-gray-300/30 rounded-full 
-            shadow-md hover:shadow-lg hover:scale-110 transition-all duration-300 hover:bg-white/80"
-          aria-label="Previous product"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+        {/* Product container - weighted lower, not centered */}
+        <div className="relative w-full h-full flex justify-center pt-[6vh]">
+          {/* Left Arrow */}
+          <button
+            onClick={prevProduct}
+            className="absolute left-[8%] md:left-[12%] top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#E6E6E6]/90 backdrop-blur-md text-black hover:text-white hover:bg-red-500 transition-all duration-300 shadow-lg flex items-center justify-center cursor-pointer transform hover:scale-110"
+            aria-label="Previous product"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-        {/* Product Display - 3 Products with Center Focus - Narrowed Container (Fix 4) */}
-        <div className="relative w-full max-w-5xl h-full max-h-[60vh] flex items-center justify-center">
-          {[prevIndex, currentIndex, nextIndex].map((index) => {
-            const product = products[index];
-            const isCenter = index === currentIndex;
-            const isLeft = index === prevIndex;
+          {/* HERO PRODUCT SYSTEM */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {[prevIndex, currentIndex, nextIndex].map((index) => {
+              const product = products[index];
+              const isCenter = index === currentIndex;
+              const isLeft = index === prevIndex;
 
-            return (
-              <div
-                key={product.id}
-                className={`absolute transition-all duration-1000 ease-out ${isCenter
-                  ? 'translate-x-0 scale-100 opacity-100 z-20'
-                  : isLeft
-                    ? '-translate-x-[380px] scale-75 opacity-40 z-10' // Adjusted: A bit further away
-                    : 'translate-x-[380px] scale-75 opacity-40 z-10'  // Adjusted: A bit further away
-                  }`}
-                style={{
-                  filter: isCenter
-                    ? 'none'
-                    : 'blur(5px) brightness(1.1) contrast(0.8) saturate(0.7)', // Fix 2: Reduced blur (hinted shapes)
-                }}
-              >
-                {/* Atmospheric light around hero product - Refined */}
-                {isCenter && (
-                  <>
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 65%)',
-                        transform: 'scale(1.4)',
-                        filter: 'blur(50px)',
-                        zIndex: -1,
-                      }}
-                    />
-                    <div
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
-                      style={{
-                        width: '85%',
-                        height: '50px',
-                        background: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.05) 50%, transparent 80%)',
-                        filter: 'blur(25px)',
-                        transform: 'translateY(130%) translateX(-50%)',
-                        zIndex: -1,
-                      }}
-                    />
-                  </>
-                )}
-
-                <img
-                  key={`${product.id}-${imageKey}`}
-                  src={
-                    isCenter
-                      ? getImageByColor(product, selectedColor)
-                      : product.image
-                  }
-                  alt={product.name}
-                  className={`object-contain transition-all duration-1000 ${isCenter
-                    ? 'h-[55vh] md:h-[65vh] w-auto'
-                    : 'h-[32vh] w-auto'
+              return (
+                <div
+                  key={product.id}
+                  className={`absolute transition-all duration-1000 ease-out ${isCenter ? 'opacity-100 z-20' : 'opacity-40 z-10'
                     }`}
                   style={{
                     filter: isCenter
-                      ? 'drop-shadow(0 50px 50px rgba(0, 0, 0, 0.25))' // Visible Soft Anchor
-                      : 'none'
+                      ? 'brightness(1) contrast(1) saturate(1)'
+                      : 'blur(14px) saturate(0.6) brightness(1.1)',
+                    transform: isCenter
+                      ? 'translateX(0) translateY(0px) scale(1.2)'
+                      : isLeft
+                        ? 'translateX(-350px) scale(0.75)'
+                        : 'translateX(350px) scale(0.75)',
                   }}
-                />
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={nextProduct}
-          className="absolute right-[5%] md:right-[10%] lg:right-[15%] z-30 p-3 bg-white/60 backdrop-blur-sm border border-gray-300/30 rounded-full 
-            shadow-md hover:shadow-lg hover:scale-110 transition-all duration-300 hover:bg-white/80"
-          aria-label="Next product"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </section>
-
-      {/* Bottom Product Info */}
-      <div className="pb-4 px-8 relative z-30 shrink-0">
-        <div className="text-center space-y-3 mb-4">
-          {/* Fix 1: Richer black text */}
-          <h1
-            className="text-4xl md:text-6xl font-bold tracking-tight title"
-            style={{ color: '#0f172a' }} // Ink / Charcoal
-          >
-            {activeProduct.name}
-          </h1>
-
-          <p
-            className="text-sm uppercase tracking-widest"
-            style={{ color: '#475569' }} // Slate 600 - Richer than gray-500
-          >
-            {activeProduct.brand} | {activeProduct.category}
-          </p>
-
-          <div className="flex justify-center gap-4 py-2">
-            {activeProduct.availableColors.map((color, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setSelectedColor(color);
-                  setImageKey((k) => k + 1);
-                }}
-                className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${selectedColor === color
-                  ? 'scale-110'
-                  : 'border-gray-400 hover:scale-105' // Darker border
-                  }`}
-                style={{
-                  borderColor: selectedColor === color ? '#0f172a' : undefined, // Ink border
-                  backgroundColor:
-                    color === 'Black' ? '#0f172a' : // Ink black
-                      color === 'Pink' ? '#ec4899' :
-                        color === 'Grey' ? '#9ca3af' :
-                          color === 'Green' ? '#10b981' :
-                            color === 'White' ? '#fff' :
-                              color === 'Blue' ? '#3b82f6' : '#ccc',
-                }}
-                title={color}
-              />
-            ))}
+                >
+                  <img
+                    key={product.id}
+                    src={
+                      isCenter
+                        ? getImageByColor(product, selectedColor)
+                        : product.image
+                    }
+                    alt={product.name}
+                    className={`object-contain transition-all duration-1000 relative z-10 ${isCenter
+                      ? 'h-[65vh] md:h-[68vh] w-auto'
+                      : 'h-[44vh] w-auto'
+                      }`}
+                    style={{
+                      filter: 'none',
+                      boxShadow: 'none',
+                    }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
+          {/* Right Arrow */}
           <button
-            onClick={() => {
-              navigate(
-                `/product/${activeProduct.id}?name=${encodeURIComponent(
-                  activeProduct.name
-                )}`
-              );
-            }}
-            className="mt-4 px-12 py-3 bg-gray-800 text-white text-sm font-medium rounded-full 
-              hover:bg-gray-700 transition-all duration-300 uppercase tracking-widest
-              shadow-md hover:shadow-lg"
+            onClick={nextProduct}
+            className="absolute right-[8%] md:right-[12%] top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#E6E6E6]/90 backdrop-blur-md text-black hover:text-white hover:bg-red-500 transition-all duration-300 shadow-lg flex items-center justify-center cursor-pointer transform hover:scale-110"
+            aria-label="Next product"
           >
-            View Details
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
+      </section>
+
+      {/* PRODUCT INFO */}
+      <div className="mt-6 pb-12 px-8 relative z-20 flex flex-col items-center text-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight title text-[#0f172a]">
+          {activeProduct.name}
+        </h1>
+
+        {/* Product Description */}
+        <p className="mt-3 text-base text-black/80 max-w-2xl mx-auto leading-relaxed">
+          {activeProduct.summary}
+        </p>
+
+        {/* Color Selection */}
+        <div className="flex justify-center gap-4 py-3">
+          {activeProduct.availableColors.map((color, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setSelectedColor(color);
+                setImageKey((k) => k + 1);
+              }}
+              className={`w-5 h-5 rounded-full border transition-all duration-300 ${selectedColor === color
+                ? 'scale-110 border-[#0f172a]'
+                : 'border-transparent hover:scale-105'
+                }`}
+              style={{
+                backgroundColor:
+                  color === 'Black' ? '#0f172a' :
+                    color === 'Pink' ? '#ec4899' :
+                      color === 'Grey' ? '#9ca3af' :
+                        color === 'Green' ? '#10b981' :
+                          color === 'White' ? '#fff' :
+                            color === 'Blue' ? '#3b82f6' : '#ccc',
+                boxShadow: selectedColor === color ? '0 0 0 2px white, 0 0 0 3px #0f172a' : 'none'
+              }}
+              title={color}
+            />
+          ))}
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex gap-2 mt-1 mb-4">
+          {products.map((_, idx) => (
+            <span
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-colors duration-300 ${idx === currentIndex ? 'bg-black/80' : 'bg-black/10 hover:bg-black/20'
+                }`}
+            />
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <button
+          onClick={() => {
+            navigate(
+              `/product/${activeProduct.id}?name=${encodeURIComponent(
+                activeProduct.name
+              )}`
+            );
+          }}
+          className="px-8 py-3 rounded-full bg-[#1f2937] text-white text-[11px] font-semibold tracking-[0.25em] hover:bg-[#ef4444] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-out cursor-pointer"
+        >
+          SEE MORE
+        </button>
       </div>
 
-      {/* Footer - Resting in the "Calm Zone" (Shadow Floor) */}
-      <div
-        className="w-full relative z-40 mt-auto"
-        style={{
-          // Fix 3: Visual weight via darker background zone
-          background: 'linear-gradient(to top, rgba(0,0,0,0.03) 0%, transparent 100%)',
-          borderTop: '1px solid rgba(0,0,0,0.02)' // Subtle edge alignment
-        }}
-      >
-        <Footer />
-      </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
