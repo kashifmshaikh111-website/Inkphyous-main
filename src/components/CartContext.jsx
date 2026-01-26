@@ -31,10 +31,19 @@ export function CartProvider({ children }) {
   };
 
   // Function to remove a product from the cart
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeFromCart = (index) => {
+    setCartItems(prevItems => prevItems.filter((_, i) => i !== index));
   };
-  
+
+  // Function to update quantity
+  const updateQuantity = (index, newQuantity) => {
+    setCartItems(prevItems =>
+      prevItems.map((item, i) =>
+        i === index ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
   // Calculate cart total
   const cartTotal = cartItems.reduce((total, item) => total + (item.price || item.discountPriceINR) * item.quantity, 0);
 
@@ -43,6 +52,7 @@ export function CartProvider({ children }) {
     cartItems,
     addToCart,
     removeFromCart,
+    updateQuantity,
     cartTotal,
   };
 

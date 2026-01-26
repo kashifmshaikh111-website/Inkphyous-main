@@ -135,7 +135,7 @@ export default function Header({ openShopAll }) {
             {/* LEFT — BRAND */}
             <Link
               to="/"
-              className={`hover:opacity-80 transition ${(location.pathname.includes("/contact") || location.pathname.includes("/legal"))
+              className={`hover:opacity-80 transition ${(location.pathname.includes("/contact") || location.pathname.includes("/legal") || location.pathname.includes("/cart"))
                 ? "invisible pointer-events-none"
                 : ""
                 }`}
@@ -177,7 +177,10 @@ export default function Header({ openShopAll }) {
               </button>
 
               {/* Cart Icon */}
-              <button className="flex items-center leading-none hover:text-red-500 transition relative font-semibold cursor-pointer title">
+              <button
+                onClick={() => navigate('/cart')}
+                className="flex items-center leading-none hover:text-red-500 transition relative font-semibold cursor-pointer title"
+              >
                 Bag
                 {cartItemCount > 0 && (
                   <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-red-500 rounded-full" />

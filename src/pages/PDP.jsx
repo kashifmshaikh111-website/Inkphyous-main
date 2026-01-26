@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import products from "../Utils/Products";
 import { Plus, Heart, IndianRupee } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useCart } from "../components/CartContext";
 
 
 // Helper to get product and specific variant
@@ -65,10 +66,12 @@ function Accordion({ title, content, isOpen, onClick }) {
 export default function ProductDisplay() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState("");
   const [activeVariantId, setActiveVariantId] = useState("");
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
+  const [showNotification, setShowNotification] = useState(false);
 
   const defaultId = products[0]?.variants[0]?.id || "v1_black";
   const productId = id || defaultId;
@@ -275,7 +278,25 @@ export default function ProductDisplay() {
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
                   }`}
                 disabled={!selectedSize}
-                onClick={() => selectedSize && navigate(`/checkout?productId=${product.id}&variantId=${selectedVariant.id}&size=${selectedSize}`)}
+                onClick={() => {
+                  if (selectedSize) {
+                    // Add item to cart with all details
+                    addToCart({
+                      id: selectedVariant.id,
+                      name: product.name,
+                      image: selectedVariant.image,
+                      color: selectedVariant.color,
+                      size: selectedSize,
+                      priceINR: product.priceINR,
+                      discountPriceINR: product.discountPriceINR,
+                      quantity: 1
+                    });
+
+                    // Show notification
+                    setShowNotification(true);
+                    setTimeout(() => setShowNotification(false), 3000);
+                  }
+                }}
               >
                 {selectedSize ? 'Add to Bag' : 'Select Size'}
               </button>
@@ -308,6 +329,23 @@ export default function ProductDisplay() {
           </div>
         </div>
       </div>
+
+      {/* Success Notification */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 right-8 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl z-50 flex items-center gap-3"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="font-semibold">Added to bag!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

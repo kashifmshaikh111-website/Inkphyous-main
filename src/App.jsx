@@ -12,6 +12,7 @@ import ContactUs from "./pages/ContactUs";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import Cart from "./pages/Cart";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "./components/Footer";
 import LogoScene from "./components/LogoScene";
@@ -61,6 +62,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
       <Analytics />
     </div >
