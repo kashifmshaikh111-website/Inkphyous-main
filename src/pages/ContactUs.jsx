@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { ChevronDown, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../components/LanguageContext";
 
 const ContactUs = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [file, setFile] = useState(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -37,7 +39,7 @@ const ContactUs = () => {
         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
           <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
         </div>
-        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
+        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">{t('back')}</span>
       </button>
 
       {/* GRID SECTION */}
@@ -46,11 +48,11 @@ const ContactUs = () => {
         {/* LEFT SIDE */}
         <div className="flex flex-col text-center justify-center px-4 sm:px-6 md:px-12 py-8 sm:py-10 md:py-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-black title">
-            Contact
+            {t('contactTitle')}
           </h1>
 
           <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3">
-            If you have any questions about your order or need further assistance, you can always contact us at
+            {t('contactIntro')}
           </p>
 
           <p className="text-base sm:text-lg text-red-600 font-semibold mb-4 sm:mb-6">
@@ -58,8 +60,7 @@ const ContactUs = () => {
           </p>
 
           <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-            Alternatively, please complete the form by selecting a subject and entering your question or comment.
-            Our Customer Service team will review your message and respond as soon as possible.
+            {t('contactAltIntro')}
           </p>
         </div>
 
@@ -70,7 +71,7 @@ const ContactUs = () => {
             {/* NAME */}
             <input
               type="text"
-              placeholder="Name"
+              placeholder={t('name')}
               className="border text-right border-gray-400 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
             />
 
@@ -80,7 +81,7 @@ const ContactUs = () => {
                 className="border border-gray-400 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base text-right text-gray-700 placeholder-gray-600 cursor-pointer flex items-center justify-end gap-2 hover:border-gray-600 transition-colors"
                 onClick={() => setIsSubjectOpen(!isSubjectOpen)}
               >
-                <span className="text-right flex-1">{selectedSubject || "Subject"}</span>
+                <span className="text-right flex-1">{selectedSubject || t('subject')}</span>
                 <ChevronDown
                   className={`transition-transform flex-shrink-0 ${isSubjectOpen ? "rotate-180" : ""}`}
                   size={18}
@@ -108,25 +109,25 @@ const ContactUs = () => {
             {/* EMAIL */}
             <input
               type="email"
-              placeholder="Email"
+              placeholder={t('email')}
               className="border text-right border-gray-400 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
             />
 
             {/* DESCRIPTION */}
             <textarea
               rows="5"
-              placeholder="Description"
+              placeholder={t('description')}
               className="border text-right border-gray-400 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base text-gray-700 placeholder-gray-600 resize-none focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
             ></textarea>
 
             {/* FILE INPUT */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-gray-600">
               <span className="truncate max-w-full sm:max-w-[60%] order-2 sm:order-1">
-                {file ? file.name : "No File Selected"}
+                {file ? file.name : t('noFileSelected')}
               </span>
 
               <label className="border border-gray-400 px-3 py-1.5 sm:py-1 cursor-pointer hover:bg-red-500 transition-all hover:text-white hover:border-red-500 text-gray-700 text-sm whitespace-nowrap order-1 sm:order-2 self-end sm:self-auto">
-                Attach File
+                {t('attachFile')}
                 <input
                   type="file"
                   className="hidden"
@@ -144,7 +145,7 @@ const ContactUs = () => {
           onClick={handleSubmit}
           className="w-full sm:w-auto sm:min-w-[400px] md:w-[600px] lg:w-[800px] xl:w-[1000px] text-center border border-gray-400 py-2.5 sm:py-3 px-8 sm:px-12 text-base sm:text-lg text-gray-800 bg-transparent hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 rounded font-medium cursor-pointer"
         >
-          Submit
+          {t('submit')}
         </button>
       </div>
     </div>

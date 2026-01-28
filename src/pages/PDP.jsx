@@ -5,6 +5,7 @@ import products from "../Utils/Products";
 import { Plus, Heart, IndianRupee } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "../components/CartContext";
+import { useLanguage } from "../components/LanguageContext";
 
 
 // Helper to get product and specific variant
@@ -19,9 +20,9 @@ const getProductAndVariant = (id) => {
 };
 
 // Accordion Component
-function Accordion({ title, content, isOpen, onClick }) {
+function Accordion({ title, content, isOpen, onClick, type }) {
   const renderContent = () => {
-    if (title === "Size Chart" && typeof content === "object" && content !== null) {
+    if (type === "sizeChart" && typeof content === "object" && content !== null) {
       const { header, measurements } = content;
       const rows = Object.entries(measurements);
       return (
@@ -67,6 +68,7 @@ export default function ProductDisplay() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { t, language } = useLanguage();
   const [selectedSize, setSelectedSize] = useState("");
   const [activeVariantId, setActiveVariantId] = useState("");
   const [activeAccordion, setActiveAccordion] = useState(null);
@@ -76,6 +78,11 @@ export default function ProductDisplay() {
   const defaultId = products[0]?.variants[0]?.id || "v1_black";
   const productId = id || defaultId;
   const { product, selectedVariant } = getProductAndVariant(productId);
+
+  // Scroll to top when component mounts or product changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     if (selectedVariant) setActiveVariantId(selectedVariant.id);
@@ -111,7 +118,7 @@ export default function ProductDisplay() {
   }, [selectedVariant]);
 
   if (!product || !selectedVariant) {
-    return <div className="text-center py-16 text-gray-800">Product not found</div>;
+    return <div className="text-center py-16 text-gray-800">{t('productNotFound')}</div>;
   }
 
   const handleVariantClick = (variantId) => {
@@ -120,9 +127,9 @@ export default function ProductDisplay() {
   };
 
   const accordionItems = [
-    { title: "Details", content: product.details },
-    { title: "Shipping Policy", content: product.shippingPolicy },
-    { title: "Size Chart", content: product.sizeChart },
+    { title: t('details'), content: language === 'ar' && product.details_ar ? product.details_ar : product.details },
+    { title: t('shippingPolicy'), content: language === 'ar' && product.shippingPolicy_ar ? product.shippingPolicy_ar : product.shippingPolicy },
+    { title: t('sizeChart'), content: language === 'ar' && product.sizeChart_ar ? product.sizeChart_ar : product.sizeChart, type: "sizeChart" },
   ];
 
   // Calculate blur based on scroll
@@ -202,7 +209,7 @@ export default function ProductDisplay() {
 
             {/* Title */}
             <h1 className="text-[48px] md:text-[56px] leading-[1.1] font-bold text-gray-900 tracking-tight mb-2">
-              {product.hasVariants ? product.variants[0].name : product.name}
+              {language === 'ar' && product.name_ar ? product.name_ar : (product.hasVariants ? product.variants[0].name : product.name)}
             </h1>
 
             {/* Sub-details */}
@@ -217,7 +224,7 @@ export default function ProductDisplay() {
                 {product.discountPriceINR || product.priceINR}
               </span>
               <span className="text-[14px] text-gray-500 font-normal">
-                Tax included. Free shipping.
+                {t('taxIncluded')}
               </span>
             </div>
 
@@ -227,7 +234,7 @@ export default function ProductDisplay() {
               {/* Colors */}
               <div>
                 <span className="text-[13px] font-bold text-gray-400 uppercase tracking-widest block mb-3">
-                  Color — <span className="text-black">{selectedVariant.color}</span>
+                  {t('colorCaps')} — <span className="text-black">{selectedVariant.color}</span>
                 </span>
                 <div className="flex flex-wrap gap-3">
                   {product.variants.slice(0, 3).map((variant) => {
@@ -236,7 +243,7 @@ export default function ProductDisplay() {
                       <button
                         key={variant.id}
                         onClick={() => handleVariantClick(variant.id)}
-                        className={`w-8 h-8 rounded-full transition-all duration-200 ${isSelected
+                        className={`w-8 h-8 rounded-full transition-all duration-200 cursor-pointer ${isSelected
                           ? "ring-1 ring-black ring-offset-2 scale-110"
                           : "hover:scale-110 opacity-80 hover:opacity-100"
                           }`}
@@ -251,14 +258,14 @@ export default function ProductDisplay() {
               {/* Sizes */}
               <div>
                 <span className="text-[13px] font-bold text-gray-400 uppercase tracking-widest block mb-3">
-                  Size
+                  {t('sizeCaps')}
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {product.sizeOptions.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`min-w-[56px] h-14 px-4 flex items-center justify-center text-[16px] font-medium transition-all duration-200 border ${selectedSize === size
+                      className={`min-w-[56px] h-14 px-4 flex items-center justify-center text-[16px] font-medium transition-all duration-200 border cursor-pointer ${selectedSize === size
                         ? "border-black bg-black text-white"
                         : "border-gray-200 text-gray-600 hover:border-black"
                         }`}
@@ -274,7 +281,7 @@ export default function ProductDisplay() {
             <div className="flex gap-4 mb-16 ml-1">
               <button
                 className={`flex-1 h-[56px] flex items-center justify-center text-[16px] font-bold uppercase tracking-[0.15em] transition-all duration-300 ${selectedSize
-                  ? "bg-[#0f172a] text-white hover:bg-black hover:shadow-lg"
+                  ? "bg-[#0f172a] text-white hover:bg-black hover:shadow-lg cursor-pointer"
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
                   }`}
                 disabled={!selectedSize}
@@ -298,7 +305,7 @@ export default function ProductDisplay() {
                   }
                 }}
               >
-                {selectedSize ? 'Add to Bag' : 'Select Size'}
+                {selectedSize ? t('addToBag') : t('selectSize')}
               </button>
 
               <button className="w-[52px] h-[52px] flex items-center justify-center border border-gray-200 text-gray-400 hover:border-black hover:text-red-500 transition-colors duration-300">
@@ -309,7 +316,7 @@ export default function ProductDisplay() {
             {/* Description */}
             <div className="prose prose-sm text-gray-600 mb-12 ml-1 leading-relaxed">
               <p className="whitespace-pre-line font-light text-[16px]">
-                {product.description}
+                {language === 'ar' && product.description_ar ? product.description_ar : product.description}
               </p>
             </div>
 
@@ -342,7 +349,7 @@ export default function ProductDisplay() {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            <span className="font-semibold">Added to bag!</span>
+            <span className="font-semibold">{t('addedToBag')}</span>
           </motion.div>
         )}
       </AnimatePresence>

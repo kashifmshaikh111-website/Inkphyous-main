@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import products from '../Utils/Products';
 import Footer from '../components/Footer';
+import { useLanguage } from '../components/LanguageContext';
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const [imageKey, setImageKey] = useState(0);
+  const [lastInteractionTime, setLastInteractionTime] = useState(null);
+  const { language, t } = useLanguage();
 
   const navigate = useNavigate();
 
@@ -15,14 +18,26 @@ export default function Home() {
   const prevIndex = (currentIndex - 1 + products.length) % products.length;
   const nextIndex = (currentIndex + 1) % products.length;
 
-  // Auto rotate
+  // Auto rotate (pauses for 10 seconds after user interaction)
   useEffect(() => {
     if (isHovering) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isHovering]);
+
+    // Function to check if we should auto-rotate
+    const shouldRotate = () => {
+      if (!lastInteractionTime) return true; // No interaction yet, rotate
+      const timeSinceInteraction = Date.now() - lastInteractionTime;
+      return timeSinceInteraction >= 6000; // 6 seconds have passed
+    };
+
+    // Check every second if we should start rotating
+    const checkInterval = setInterval(() => {
+      if (shouldRotate()) {
+        setCurrentIndex((prev) => (prev + 1) % products.length);
+      }
+    }, 4000); // Check every 4 seconds (rotation interval)
+
+    return () => clearInterval(checkInterval);
+  }, [isHovering, lastInteractionTime, products.length]);
 
   // Reset color when product changes
   useEffect(() => {
@@ -144,12 +159,12 @@ export default function Home() {
       {/* PRODUCT INFO */}
       <div className="mt-6 pb-12 px-8 relative z-20 flex flex-col items-center text-center">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight title text-[#0f172a]">
-          {activeProduct.name}
+          {language === 'ar' && activeProduct.name_ar ? activeProduct.name_ar : activeProduct.name}
         </h1>
 
         {/* Product Description */}
         <p className="mt-3 text-base text-black/80 max-w-2xl mx-auto leading-relaxed">
-          {activeProduct.summary}
+          {language === 'ar' && activeProduct.summary_ar ? activeProduct.summary_ar : activeProduct.summary}
         </p>
 
         {/* Color Selection */}
@@ -160,6 +175,7 @@ export default function Home() {
               onClick={() => {
                 setSelectedColor(color);
                 setImageKey((k) => k + 1);
+                setLastInteractionTime(Date.now());
               }}
               className={`w-5 h-5 rounded-full border transition-all duration-300 ${selectedColor === color
                 ? 'scale-110 border-[#0f172a]'
@@ -203,7 +219,7 @@ export default function Home() {
           }}
           className="px-8 py-3 rounded-full bg-[#1f2937] text-white text-[11px] font-semibold tracking-[0.25em] hover:bg-[#ef4444] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-out cursor-pointer"
         >
-          SEE MORE
+          {t('seeMore')}
         </button>
       </div>
 

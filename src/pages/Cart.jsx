@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext";
+import { useLanguage } from "../components/LanguageContext";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
 
 const Cart = () => {
     const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const { t } = useLanguage();
 
     const subtotal = cartItems.reduce((total, item) => {
         const price = item.discountPriceINR || item.priceINR || 0;
@@ -22,16 +24,16 @@ const Cart = () => {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
                         <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
                     </div>
-                    <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
+                    <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">{t('back')}</span>
                 </button>
 
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl">
                     <div className="flex flex-col text-center md:text-left justify-center px-4 sm:px-6 md:px-12 py-8 sm:py-10 md:py-12">
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-gray-900">
-                            Shopping Bag
+                            {t('shoppingBag')}
                         </h1>
                         <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                            Your bag is empty. Start adding items to get started!
+                            {t('emptyBagMessage')}
                         </p>
                     </div>
 
@@ -40,7 +42,7 @@ const Cart = () => {
                             onClick={() => navigate(-1)}
                             className="w-full py-6 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 font-bold uppercase tracking-widest text-lg"
                         >
-                            Continue Shopping
+                            {t('continueShopping')}
                         </button>
                     </div>
                 </div>
@@ -57,7 +59,7 @@ const Cart = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
                     <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
                 </div>
-                <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
+                <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">{t('back')}</span>
             </button>
 
             <div className="flex-1 flex flex-col w-full pt-32 md:pt-36 px-4 md:px-0">
@@ -67,10 +69,10 @@ const Cart = () => {
                     {/* LEFT SIDE */}
                     <div className="flex flex-col items-center justify-center p-8 text-center h-full">
                         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-black title">
-                            Shopping Bag
+                            {t('shoppingBag')}
                         </h1>
                         <p className="text-lg text-gray-700">
-                            {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your bag
+                            {t('itemsInBag', { count: cartItems.length, itemText: cartItems.length === 1 ? t('item') : t('items') })}
                         </p>
                     </div>
 
@@ -96,10 +98,10 @@ const Cart = () => {
                                                 <h3 className={`${isSingleItem ? 'text-3xl' : 'text-xl'} font-bold text-gray-900`}>{item.name}</h3>
 
                                                 {item.color && (
-                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>Color: <span className="font-medium">{item.color}</span></p>
+                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>{t('color')}: <span className="font-medium">{item.color}</span></p>
                                                 )}
                                                 {item.size && (
-                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>Size: <span className="font-medium">{item.size}</span></p>
+                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>{t('size')}: <span className="font-medium">{item.size}</span></p>
                                                 )}
 
                                                 <div className={`border-t border-gray-200 ${isSingleItem ? 'pt-4' : 'pt-2'}`}>
@@ -146,15 +148,15 @@ const Cart = () => {
                 <div className="w-full flex justify-center pb-8">
                     <div className="w-full sm:w-auto sm:min-w-[400px] md:w-[600px] lg:w-[800px] xl:w-[1000px] border-t-2 border-gray-300 pt-6 space-y-4">
                         <div className="flex justify-between text-sm text-gray-600 font-medium">
-                            <span>Subtotal</span>
+                            <span>{t('subtotal')}</span>
                             <span>₹{subtotal}</span>
                         </div>
                         <div className="flex justify-between text-sm text-gray-600 font-medium">
-                            <span>Shipping</span>
-                            <span className="text-green-600">Free</span>
+                            <span>{t('shipping')}</span>
+                            <span className="text-green-600">{t('free')}</span>
                         </div>
                         <div className="flex justify-between text-lg font-bold text-black border-t border-gray-200 pt-3">
-                            <span>Total</span>
+                            <span>{t('total')}</span>
                             <span>₹{subtotal}</span>
                         </div>
 
@@ -163,14 +165,14 @@ const Cart = () => {
                                 onClick={() => navigate('/checkout')}
                                 className="w-full py-5 bg-black text-white hover:bg-red-500 transition-all duration-300 font-bold uppercase tracking-widest cursor-pointer text-sm"
                             >
-                                Checkout
+                                {t('checkout')}
                             </button>
 
                             <button
                                 onClick={() => navigate(-1)}
                                 className="w-full py-5 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 font-semibold uppercase tracking-wider cursor-pointer text-sm"
                             >
-                                Continue Shopping
+                                {t('continueShopping')}
                             </button>
                         </div>
                     </div>

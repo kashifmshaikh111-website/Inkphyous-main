@@ -6,6 +6,7 @@ import { CircleUserRound, X, Search, ChevronDown, ArrowLeft } from "lucide-react
 import { HeartIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
+import { useLanguage } from "./LanguageContext";
 import { TbPaperBag } from "react-icons/tb";
 import InphyousLogo from "./InphyousLogo";
 
@@ -42,6 +43,7 @@ export default function Header({ openShopAll }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const { cartItems, lastAddedItem } = useCart();
+  const { switchLanguage, language, t } = useLanguage();
   const cartDropdownRef = useRef(null);
   const searchInputRef = useRef(null);
   const langDropdownRef = useRef(null);
@@ -121,7 +123,7 @@ export default function Header({ openShopAll }) {
           >
             <TbPaperBag className="h-6 w-6" />
             <span>
-              Added <b>{lastAddedItem.name}</b> to your cart!
+              {t('addedToCart', { item: lastAddedItem.name })}
             </span>
           </motion.div>
         )}
@@ -174,7 +176,7 @@ export default function Header({ openShopAll }) {
                 className="flex items-center leading-none hover:text-red-500 transition cursor-pointer title"
               >
                 <CircleUserRound className="w-6 h-6 md:hidden" />
-                <span className="hidden md:inline title">Account</span>
+                <span className="hidden md:inline title">{t('account')}</span>
               </button>
 
               {/* Cart Icon */}
@@ -183,7 +185,7 @@ export default function Header({ openShopAll }) {
                 className="flex items-center leading-none hover:text-red-500 transition relative cursor-pointer title"
               >
                 <TbPaperBag className="w-6 h-6 md:hidden" />
-                <span className="hidden md:inline title">Bag</span>
+                <span className="hidden md:inline title">{t('bag')}</span>
                 {cartItemCount > 0 && (
                   <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-red-500 rounded-full" />
                 )}
@@ -204,7 +206,8 @@ export default function Header({ openShopAll }) {
                   <div className="absolute right-0 top-full mt-4 bg-white border border-black/10 rounded-lg shadow-lg py-3 min-w-[140px] md:min-w-[160px] z-50">
                     <button
                       onClick={() => {
-                        setSelectedLang("EN");
+                        setSelectedLang("En");
+                        switchLanguage('en');
                         setIsLangOpen(false);
                       }}
                       className="w-full px-5 py-3 md:px-7 md:py-3.5 text-left text-[14px] md:text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
@@ -213,7 +216,8 @@ export default function Header({ openShopAll }) {
                     </button>
                     <button
                       onClick={() => {
-                        setSelectedLang("AR");
+                        setSelectedLang("Ar");
+                        switchLanguage('ar');
                         setIsLangOpen(false);
                       }}
                       className="w-full px-5 py-3 md:px-7 md:py-3.5 text-left text-[14px] md:text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
@@ -227,7 +231,7 @@ export default function Header({ openShopAll }) {
 
           </div>
         </div>
-      </header>
+      </header >
     </>
   );
 }

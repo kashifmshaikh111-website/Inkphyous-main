@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "./LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer
       className="fixed bottom-8 right-12 md:right-16 z-40 text-[18px] font-semibold text-black/90 flex gap-8"
@@ -14,7 +16,7 @@ const Footer = () => {
         to="/contact"
         className="transition-colors duration-200 hover:text-red-500 cursor-pointer title"
       >
-        Contact
+        {t("contact")}
       </Link>
 
       {/* Legalities Link */}
@@ -22,7 +24,7 @@ const Footer = () => {
         to="/legal"
         className="transition-colors duration-200 hover:text-red-500 cursor-pointer title"
       >
-        Legalities
+        {t("legalities")}
       </Link>
 
       {/* Social Link */}
@@ -32,8 +34,8 @@ const Footer = () => {
         rel="noopener noreferrer"
         className="transition-colors duration-200 hover:text-red-500 cursor-pointer title"
       >
-        Social
-      </a>
+        {t("social")}
+      </a >
     </footer>
   );
 };

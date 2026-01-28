@@ -9,6 +9,7 @@ import { Rewind } from "lucide-react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../components/CartContext";
 import { ArrowLeft, ArrowRight, LayoutGrid, Sparkles } from "lucide-react";
+import { slideUpVariants, slideUpTransition } from "../Utils/Animations";
 
 // ================== CART NOTIFICATION ==================
 function CartNotification({ product, onClose }) {
@@ -185,7 +186,7 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
                   console.log('🎨 Color clicked:', variant.color, 'Image:', variant.image);
                   onVariantSelect(variant.image, variant.color);
                 }}
-                className={`w-7 h-7 rounded-full border-2 transition-all duration-300 ${getColorClass(variant.color)} ${variant.color === activeColor
+                className={`w-7 h-7 rounded-full border-2 transition-all duration-300 cursor-pointer ${getColorClass(variant.color)} ${variant.color === activeColor
                   ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
                   : 'hover:scale-105 opacity-70 hover:opacity-100'
                   }`}
@@ -351,6 +352,8 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
       {products.map((product, i) => {
         const isCurrent = i === activeIndex;
         const displayImage = (isCurrent && activeVariantImage) ? activeVariantImage : product.image;
+        // Create unique key that changes when image changes
+        const imageKey = `${product.id}-${displayImage}`;
 
         return (
           <motion.div
@@ -372,25 +375,26 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
               {/* Soft Ambient Background Light */}
               <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-gray-200/10 to-gray-400/0 blur-3xl z-0"></div>
 
-              {/* Product Image with AnimatePresence ONLY for active product */}
+              {/* Product Image with AnimatePresence - FIXED with mode="wait" */}
               {isCurrent ? (
                 <AnimatePresence mode="wait">
                   <motion.img
-                    key={displayImage}
+                    key={imageKey}
                     src={displayImage}
                     alt={product.name}
-                    className="relative w-full h-full object-contain drop-shadow-xl sm:drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] z-20"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -50 }}
-                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                    className="absolute top-0 left-0 w-full h-full object-contain drop-shadow-xl sm:drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] z-20"
+                    variants={slideUpVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={slideUpTransition}
                   />
                 </AnimatePresence>
               ) : (
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="relative w-full h-full object-contain drop-shadow-xl z-20 opacity-60 grayscale-[0.5]"
+                  className="absolute top-0 left-0 w-full h-full object-contain drop-shadow-xl z-20 opacity-60 grayscale-[0.5]"
                 />
               )}
             </div>
