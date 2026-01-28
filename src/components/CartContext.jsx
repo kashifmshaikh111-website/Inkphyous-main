@@ -15,16 +15,22 @@ export function CartProvider({ children }) {
   // Function to add a product to the cart
   const addToCart = (product) => {
     setCartItems(prevItems => {
-      // Check if the item is already in the cart
-      const existingItem = prevItems.find(item => item.id === product.id);
+      // Check if the item is already in the cart with the exact same ID, Size, and Color
+      const existingItemIndex = prevItems.findIndex(item =>
+        item.id === product.id &&
+        item.size === product.size &&
+        item.color === product.color
+      );
 
-      if (existingItem) {
-        // If it exists, update the quantity (or just return the same array for now)
-        // For simplicity, we'll just return the existing items.
-        // You could add a quantity field and increment it here.
-        return prevItems;
+      if (existingItemIndex !== -1) {
+        // If it exists, update the quantity
+        return prevItems.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
+            : item
+        );
       } else {
-        // If it's a new item, add it to the cart
+        // If it's a new item or new variant, add it to the cart
         return [...prevItems, { ...product, quantity: 1 }];
       }
     });

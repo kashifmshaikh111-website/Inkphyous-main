@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Opener from "./components/3DModel";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home"
@@ -24,8 +25,13 @@ function App() {
 
   const handleIntroComplete = () => {
     setShowIntro(false);
-    navigate('/'); // Ensure we start at Home
+    // navigate('/'); // Ensure we start at Home
   };
+
+  // Force reset cursor to default to fix any stuck states
+  useEffect(() => {
+    document.body.style.cursor = 'default';
+  }, []);
 
   // Show logo intro first
   if (showIntro) {
@@ -40,32 +46,34 @@ function App() {
 
   // After intro, show main website
   return (
-    <div
-      style={{
-        zoom: "75%",
-        animation: "fadeIn 1200ms ease-out",
-        opacity: 1
-      }}
-    >
-      {/* Always show Header */}
-      < Header />
+    <ErrorBoundary>
+      <div
+        style={{
+          zoom: "75%",
+          animation: "fadeIn 1200ms ease-out",
+          opacity: 1
+        }}
+      >
+        {/* Always show Header */}
+        < Header />
 
-      <Routes>
-        {/* <Route path="/" element={<Welcome />} /> */}
-        <Route path="/" element={<Home />} />
+        <Routes>
+          {/* <Route path="/" element={<Welcome />} /> */}
+          <Route path="/" element={<Home />} />
 
-        <Route path="/product/:id" element={<ProductDisplay />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/pdpc/:id" element={<PDPC />} />
-        <Route path="/legal" element={<Legal />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-      <Analytics />
-    </div >
+          <Route path="/product/:id" element={<ProductDisplay />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/pdpc/:id" element={<PDPC />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+        <Analytics />
+      </div>
+    </ErrorBoundary>
   );
 }
 

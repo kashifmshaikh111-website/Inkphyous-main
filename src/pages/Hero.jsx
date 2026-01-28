@@ -4,10 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import { useNavigate } from "react-router-dom";
-import products from "../Utils/Products"; 
+import products from "../Utils/Products";
 import { Rewind } from "lucide-react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useCart } from "../components/CartContext"; 
+import { useCart } from "../components/CartContext";
 import { ArrowLeft, ArrowRight, LayoutGrid, Sparkles } from "lucide-react";
 
 // ================== CART NOTIFICATION ==================
@@ -49,7 +49,7 @@ function ColorChangeNotification({ color, onClose }) {
       className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-full shadow-lg z-[200] flex items-center gap-2"
     >
       <div className="w-4 h-4 rounded-full bg-white/30 animate-pulse"></div>
-     
+
     </motion.div>
   );
 }
@@ -132,11 +132,11 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
   // Get unique variants (one entry per color)
   const uniqueVariants = activeProduct.variants
     ? activeProduct.variants.reduce((acc, variant) => {
-        if (!acc.some(item => item.color === variant.color)) {
-          acc.push(variant);
-        }
-        return acc;
-      }, [])
+      if (!acc.some(item => item.color === variant.color)) {
+        acc.push(variant);
+      }
+      return acc;
+    }, [])
     : [];
 
   // Helper to get a suitable Tailwind color class
@@ -164,10 +164,10 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
-        className="text-center w-full max-w-5xl mx-auto cursor-pointer backdrop-blur-sm rounded-2xl p-6"
+        className="text-center w-full max-w-5xl mx-auto backdrop-blur-sm rounded-2xl p-6"
       >
         {/* PRODUCT TITLE */}
-      {/* PRODUCT TITLE */}
+        {/* PRODUCT TITLE */}
         <motion.h2
           className="text-xl sm:text-2xl title md:text-5xl lg:text-7xl font-bold tracking-wider text-gray-900 mb-8"
           initial={{ opacity: 0 }}
@@ -176,36 +176,35 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
         >
           {activeProduct.name}
         </motion.h2>
- {uniqueVariants.length > 0 && (
-            <div className="flex items-center  justify-center mb-4 gap-3 flex-shrink-0">
-              {uniqueVariants.map((variant) => (
-                <motion.button
-                  key={variant.id}
-                  onClick={() => {
-                    console.log('🎨 Color clicked:', variant.color, 'Image:', variant.image);
-                    onVariantSelect(variant.image, variant.color);
-                  }}
-                  className={`w-7 h-7 rounded-full border-2 transition-all duration-300 ${getColorClass(variant.color)} ${
-                    variant.color === activeColor 
-                      ? 'ring-2 ring-offset-2 ring-gray-900 scale-110' 
-                      : 'hover:scale-105 opacity-70 hover:opacity-100'
+        {uniqueVariants.length > 0 && (
+          <div className="flex items-center  justify-center mb-4 gap-3 flex-shrink-0">
+            {uniqueVariants.map((variant) => (
+              <motion.button
+                key={variant.id}
+                onClick={() => {
+                  console.log('🎨 Color clicked:', variant.color, 'Image:', variant.image);
+                  onVariantSelect(variant.image, variant.color);
+                }}
+                className={`w-7 h-7 rounded-full border-2 transition-all duration-300 ${getColorClass(variant.color)} ${variant.color === activeColor
+                  ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
+                  : 'hover:scale-105 opacity-70 hover:opacity-100'
                   }`}
-                  title={variant.color}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
-                />
-              ))}
-            </div>
-          )}
+                title={variant.color}
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            ))}
+          </div>
+        )}
         {/* DESCRIPTION WITH COLOR VARIANTS */}
-       
-          {/* PRODUCT DESCRIPTION */}
-          <p className="text-gray-600 secondary text-sm sm:text-base md:text-lg leading-relaxed flex-1 text-center ">
-            {activeProduct.summary}
-          </p>
 
-          {/* VARIANT COLOR CIRCLES */}
-         
+        {/* PRODUCT DESCRIPTION */}
+        <p className="text-gray-600 secondary text-sm sm:text-base md:text-lg leading-relaxed flex-1 text-center ">
+          {activeProduct.summary}
+        </p>
+
+        {/* VARIANT COLOR CIRCLES */}
+
 
         {/* SEE MORE BUTTON */}
         <div className="flex justify-center gap-4 w-full mt-4">
@@ -226,16 +225,15 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
 function TabSwitcher({ activeTab, setActiveTab, onShopClick, onCarouselClick }) {
   return (
     <motion.div
-      className="fixed top-24 right-8 z-50 bg-white/90 backdrop-blur-lg border border-gray-200 rounded-full p-1 flex gap-1"
+      className="fixed top-20 right-4 sm:top-24 sm:right-8 z-50 bg-white/90 backdrop-blur-lg border border-gray-200 rounded-full p-1 flex gap-1 scale-90 sm:scale-100 origin-top-right shadow-sm"
       initial={{ opacity: 0, x: 50, scale: 0.9 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <motion.button
         onClick={onShopClick}
-        className={`relative px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${
-          activeTab === 'shop' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
-        }`}
+        className={`relative px-4 py-2 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${activeTab === 'shop' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
+          }`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -246,14 +244,13 @@ function TabSwitcher({ activeTab, setActiveTab, onShopClick, onCarouselClick }) 
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
         )}
-        <LayoutGrid className="h-4 w-4 relative z-10" />
+        <LayoutGrid className="h-3 w-3 sm:h-4 sm:w-4 relative z-10" />
       </motion.button>
 
       <motion.button
         onClick={onCarouselClick}
-        className={`relative px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${
-          activeTab === 'carousel' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
-        }`}
+        className={`relative px-4 py-2 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${activeTab === 'carousel' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
+          }`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -264,7 +261,7 @@ function TabSwitcher({ activeTab, setActiveTab, onShopClick, onCarouselClick }) 
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
         )}
-        <Sparkles className="h-4 w-4 relative z-10" />
+        <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 relative z-10" />
       </motion.button>
     </motion.div>
   );
@@ -274,31 +271,31 @@ function TabSwitcher({ activeTab, setActiveTab, onShopClick, onCarouselClick }) 
 function ProductListing({ products, navigate, onBackClick }) {
   return (
     <motion.div
-      className="p-8 w-full text-gray-900"
+      className="p-4 sm:p-8 w-full text-gray-900 pb-24"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
         {products.map((product) => (
           <motion.div
             key={product.id}
-            className="cursor-pointer rounded-lg overflow-hidden transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="cursor-pointer rounded-lg overflow-hidden transition-all duration-300 group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => navigate(`/product/${product.id}`)}
           >
-            <div className="w-full h-64 bg-gray-100">
+            <div className="w-full h-52 sm:h-64 bg-gray-100 overflow-hidden relative">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="mt-3 flex justify-between items-start">
-              <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
-              <p className="text-lg font-semibold text-gray-800">
+            <div className="mt-3 flex justify-between items-start px-1">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">{product.name}</h3>
+              <p className="text-base sm:text-lg font-semibold text-gray-800">
                 ₹{product.discountPriceINR}
               </p>
             </div>
@@ -317,15 +314,19 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % products.length);
-    }, 70000); 
+    }, 70000);
     return () => clearInterval(interval);
   }, [products.length, setActiveIndex]);
 
+  // Adjust style for responsive
   const getProductStyle = (index) => {
     const isCurrent = index === activeIndex;
     const isNext = index === (activeIndex + 1) % products.length;
     const isPrev = index === (activeIndex - 1 + products.length) % products.length;
 
+    // We can use generic transforms that work reasonably well on both
+    // But for mobile, translateX might need to be smaller if standard px
+    // Percentages are better.
     let base = {
       position: "absolute",
       transition: "all 1s cubic-bezier(0.25, 0.1, 0.25, 1)",
@@ -333,41 +334,43 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
     };
 
     if (isCurrent)
-      return { ...base, zIndex: 10, transform: "translateX(-50%) scale(1.4)", left: "50%", opacity: 1 };
+      return { ...base, zIndex: 10, transform: "translateX(-50%) scale(1)", left: "50%", opacity: 1 };
     if (isNext)
-      return { ...base, zIndex: 5, transform: "translateX(40%) scale(0.6)", left: "50%", opacity: 0.5 };
+      return { ...base, zIndex: 5, transform: "translateX(20%) scale(0.6)", left: "50%", opacity: 0.5 };
     if (isPrev)
-      return { ...base, zIndex: 5, transform: "translateX(-140%) scale(0.6)", left: "50%", opacity: 0.5 };
+      return { ...base, zIndex: 5, transform: "translateX(-120%) scale(0.6)", left: "50%", opacity: 0.5 };
     return { display: "none" };
   };
 
   return (
     <div
-      className="relative w-full h-[600px] flex justify-center items-center"
+      className="relative w-full h-[45vh] sm:h-[600px] flex justify-center items-center mt-8 sm:mt-0"
       data-scroll
       data-scroll-speed="2"
     >
       {products.map((product, i) => {
         const isCurrent = i === activeIndex;
-        // Use activeVariantImage if available AND this is the current product, otherwise use default
         const displayImage = (isCurrent && activeVariantImage) ? activeVariantImage : product.image;
-        
+
         return (
           <motion.div
             key={product.id}
-            className="absolute top-1/2 -translate-y-1/2 w-[400px] h-[500px] flex justify-center items-center"
-            animate={getProductStyle(i)}
+            className="absolute top-1/2 -translate-y-1/2 w-[280px] h-[350px] sm:w-[400px] sm:h-[500px] flex justify-center items-center pointer-events-none"
+            animate={{
+              ...getProductStyle(i),
+              // Override scale for active item on desktop vs mobile if needed
+              transform: i === activeIndex
+                ? "translateX(-50%) scale(1)" // Mobile default
+                : getProductStyle(i).transform
+            }}
             initial={false}
           >
-            <div className="relative w-full h-full flex justify-center items-center">
+            <div className="relative w-full h-full flex justify-center items-center pointer-events-auto">
               {/* Bottom Glow + Floating Shadow */}
-              <div className="absolute bottom-10 w-[70%] h-[40px] bg-black/30 blur-2xl rounded-full opacity-70 animate-pulse z-0"></div>
+              <div className="absolute bottom-10 w-[70%] h-[40px] bg-black/30 blur-2xl rounded-full opacity-70 animate-pulse z-0 hidden sm:block"></div>
 
               {/* Soft Ambient Background Light */}
               <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-gray-200/10 to-gray-400/0 blur-3xl z-0"></div>
-
-              {/* Upward Spotlight Beam */}
-              <div className="absolute bottom-0 w-[60%] h-[200px] bg-gradient-to-t from-gray-300/60 via-gray-200/40 to-transparent blur-xl opacity-50 z-10"></div>
 
               {/* Product Image with AnimatePresence ONLY for active product */}
               {isCurrent ? (
@@ -376,7 +379,7 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
                     key={displayImage}
                     src={displayImage}
                     alt={product.name}
-                    className="relative w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] z-20"
+                    className="relative w-full h-full object-contain drop-shadow-xl sm:drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] z-20"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -50 }}
@@ -387,7 +390,7 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="relative w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] z-20"
+                  className="relative w-full h-full object-contain drop-shadow-xl z-20 opacity-60 grayscale-[0.5]"
                 />
               )}
             </div>
@@ -398,15 +401,15 @@ function MainCarousel({ products, activeIndex, setActiveIndex, activeVariantImag
       {/* Navigation Arrows */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-md border bg-white/30 flex items-center justify-center hover:bg-red-500 transition group"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full backdrop-blur-md border bg-white/30 flex items-center justify-center hover:bg-red-500 transition group z-30"
       >
-        <ArrowLeft className="h-6 w-6 text-gray-900 group-hover:text-white transition-colors" />
+        <ArrowLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-900 group-hover:text-white transition-colors" />
       </button>
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-md border bg-white/30 flex items-center justify-center hover:bg-red-500 transition group"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full backdrop-blur-md border bg-white/30 flex items-center justify-center hover:bg-red-500 transition group z-30"
       >
-        <ArrowRight className="h-6 w-6 text-gray-900 group-hover:text-white transition-colors" />
+        <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-gray-900 group-hover:text-white transition-colors" />
       </button>
     </div>
   );
@@ -476,7 +479,7 @@ export default function Home() {
       console.log('📦 Setting active product to:', product.name);
       setActiveProduct(product);
       setActiveVariantImage(product.image); // Reset to default image only when product changes
-      
+
       // Auto-advance to next category if at end
       if (activeProductIndex === filteredProducts.length - 1 && selectedCategory !== "all") {
         setTimeout(() => {
@@ -498,18 +501,18 @@ export default function Home() {
     setSelectedCategoryIndex(0);
     setActiveProductIndex(0);
   };
-  
+
   // Handler for variant color selection with notification
   const handleVariantSelect = useCallback((variantImage, colorName) => {
     console.log('✅ Variant selected - Image:', variantImage, 'Color:', colorName);
-    
+
     if (!variantImage) {
       console.error('❌ No variant image provided!');
       return;
     }
-    
+
     setActiveVariantImage(variantImage);
-    
+
     // Show color change notification
     setColorNotification(colorName);
     setTimeout(() => {
@@ -537,9 +540,8 @@ export default function Home() {
 
       <div className="flex-1 flex justify-center w-full">
         <motion.div
-          className={`w-full max-w-7xl ${
-            isShopAllView ? "overflow-y-auto h-screen hide-scrollbar" : ""
-          }`}
+          className={`w-full max-w-7xl ${isShopAllView ? "overflow-y-auto h-screen hide-scrollbar" : ""
+            }`}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -562,7 +564,7 @@ export default function Home() {
                   setActiveIndex={setActiveProductIndex}
                   activeVariantImage={activeVariantImage}
                 />
-                <ProductInfo 
+                <ProductInfo
                   activeProduct={activeProduct}
                   activeVariantImage={activeVariantImage}
                   onVariantSelect={handleVariantSelect}
@@ -583,7 +585,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-     
+
     </section>
   );
 }

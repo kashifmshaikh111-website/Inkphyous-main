@@ -11,12 +11,12 @@ export default function LegalitiesPage() {
       {/* BACK BUTTON */}
       <button
         onClick={() => navigate('/')}
-        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+        className="fixed top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
       >
-        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
-          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
+          <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
         </div>
-        <span className="font-medium text-sm sm:text-base">Back</span>
+        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
       </button>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-[49%_52%] mt-16 sm:mt-0">
@@ -67,12 +67,12 @@ export default function LegalitiesPage() {
       {/* BACK BUTTON */}
       <button
         onClick={() => setActivePage('home')}
-        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+        className="fixed top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
       >
-        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
-          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
+          <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
         </div>
-        <span className="font-medium text-sm sm:text-base">Back</span>
+        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
       </button>
 
       <div className="w-full sm:w-[95%] mt-16 sm:mt-6 lg:w-[90%] mx-auto">

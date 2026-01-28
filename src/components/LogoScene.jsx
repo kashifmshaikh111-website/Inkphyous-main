@@ -4,7 +4,7 @@ import { useGLTF, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 function Logo({ zooming, onZoomEnd, onClick }) {
-    const { scene } = useGLTF("/Snake.glb");
+    const { scene } = useGLTF(`${import.meta.env.BASE_URL}Snake.glb`);
     const root = useRef();
     const rotator = useRef();
     const finished = useRef(false);
@@ -109,8 +109,8 @@ function Logo({ zooming, onZoomEnd, onClick }) {
                 {/* Clickable hitbox - centered */}
                 <mesh
                     onClick={onClick}
-                    onPointerOver={() => (document.body.style.cursor = "pointer")}
-                    onPointerOut={() => (document.body.style.cursor = "default")}
+                    onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
+                    onPointerOut={() => { document.body.style.cursor = 'default'; }}
                     position={[0, 0, 0]}
                 >
                     <sphereGeometry args={[4, 32, 32]} />

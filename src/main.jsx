@@ -7,7 +7,7 @@ import { CartProvider } from './components/CartContext.jsx'; // Import the CartP
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       {/* Wrap the App component with CartProvider */}
       <CartProvider>
         <App />

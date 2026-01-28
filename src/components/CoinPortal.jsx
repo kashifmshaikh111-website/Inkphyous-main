@@ -41,7 +41,7 @@ export default function CoinPortal() {
       // Load GLB model
       const loader = new GLTFLoader();
       loader.load(
-        "/pendant.glb",
+        `${import.meta.env.BASE_URL}pendant.glb`,
         (gltf) => {
           model = gltf.scene;
           modelRef.current = model;
@@ -119,7 +119,7 @@ export default function CoinPortal() {
         <div
           id="scene1"
           onClick={handle3DClick}
-          className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 transition-all duration-1000 cursor-pointer"
+          className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 transition-all duration-1000"
         >
           {/* 3D MODEL FULLSCREEN CONTAINER */}
           <div ref={containerRef} className="absolute inset-0" />

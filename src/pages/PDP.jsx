@@ -147,7 +147,7 @@ export default function ProductDisplay() {
         />
       </div>
 
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-24 md:py-32">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-32 md:pt-36 pb-24">
         <div className="flex flex-col md:flex-row gap-12 lg:gap-24 items-start">
 
           {/* LEFT COLUMN: VISUALS */}

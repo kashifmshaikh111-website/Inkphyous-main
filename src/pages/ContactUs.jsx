@@ -32,12 +32,12 @@ const ContactUs = () => {
       {/* BACK BUTTON */}
       <button
         onClick={() => navigate('/')}
-        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
       >
-        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
-          <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
+          <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
         </div>
-        <span className="font-medium text-sm sm:text-base">Back</span>
+        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
       </button>
 
       {/* GRID SECTION */}
@@ -142,7 +142,7 @@ const ContactUs = () => {
       <div className="mt-6 sm:mt-8 flex justify-center w-full px-4">
         <button
           onClick={handleSubmit}
-          className="w-full sm:w-auto sm:min-w-[400px] md:w-[600px] lg:w-[800px] xl:w-[1000px] text-center border border-gray-400 py-2.5 sm:py-3 px-8 sm:px-12 text-base sm:text-lg text-gray-800 bg-transparent hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 rounded font-medium"
+          className="w-full sm:w-auto sm:min-w-[400px] md:w-[600px] lg:w-[800px] xl:w-[1000px] text-center border border-gray-400 py-2.5 sm:py-3 px-8 sm:px-12 text-base sm:text-lg text-gray-800 bg-transparent hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 rounded font-medium cursor-pointer"
         >
           Submit
         </button>

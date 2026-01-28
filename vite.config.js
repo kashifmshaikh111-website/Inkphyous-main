@@ -30,5 +30,5 @@ export default defineConfig({
   },
   
   // Base URL for your site (important for deployment)
-  base: '/', // Change if deploying to a subdirectory like '/my-app/'
+  base: '/Inkphyous-main/', // Change if deploying to a subdirectory like '/my-app/'
 });

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function PendantModel({ url, onComplete }) {
   const group = useRef();
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}${url}`);
 
   // Continuous slow spin
   useFrame((_, delta) => {
@@ -70,7 +70,7 @@ export default function PendantViewer() {
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
 
         {/* 3D Model */}
-        <PendantModel url="/pendant.glb" onComplete={goHome} />
+        <PendantModel url="pendant.glb" onComplete={goHome} />
 
         {/* Controls */}
         <OrbitControls

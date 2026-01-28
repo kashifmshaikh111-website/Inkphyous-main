@@ -16,7 +16,7 @@ import { OrbitControls, useGLTF, Center, Environment } from "@react-three/drei";
 // 3D Model Component
 function SpinningModel({ url }) {
   const group = useRef();
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}${url}`);
 
   useFrame((_, delta) => {
     if (group.current) group.current.rotation.y += delta * 0.5;
@@ -128,31 +128,31 @@ export default function Header({ openShopAll }) {
       </AnimatePresence>
 
       {/* Floating Editorial Header */}
-      <header className="fixed top-0 left-0 w-full z-50">
-        <div className="px-14 py-6">
+      <header className="fixed top-0 left-0 w-full z-50 bg-transparent/80 backdrop-blur-md border-b border-black/0">
+        <div className="px-4 py-3 md:px-12 md:py-5">
           <div className="flex items-center justify-between relative">
 
             {/* LEFT — BRAND */}
             <Link
               to="/"
-              className={`hover:opacity-80 transition ${(location.pathname.includes("/contact") || location.pathname.includes("/legal") || location.pathname.includes("/cart"))
+              className={`hover:opacity-80 transition mt-2 ${(location.pathname.includes("/contact") || location.pathname.includes("/legal") || location.pathname.includes("/cart"))
                 ? "invisible pointer-events-none"
                 : ""
                 }`}
             >
-              <InphyousLogo height="44" />
+              <InphyousLogo height="32" className="md:h-[40px]" />
             </Link>
 
             {/* Center 3D Logo - Absolutely positioned but within the same vertical alignment */}
             <div
               onClick={() => navigate("/")}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[150px] cursor-pointer pointer-events-auto flex items-center justify-center"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[100px] md:w-[180px] md:h-[150px] cursor-pointer pointer-events-auto flex items-center justify-center"
               style={{ marginTop: '10.5px' }}
             >
               <Canvas camera={{ position: [0, 2, 10], fov: 50 }}>
                 <ambientLight intensity={0.8} />
                 <directionalLight position={[5, 5, 5]} intensity={1} />
-                <SpinningModel url="/pendant.glb" />
+                <SpinningModel url="pendant.glb" />
                 <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
                 <Environment preset="sunset" />
               </Canvas>
@@ -161,8 +161,8 @@ export default function Header({ openShopAll }) {
             {/* RIGHT — ICONS */}
             <div
               className="
-                flex items-center gap-8
-                text-[18px]
+                flex items-center gap-4 md:gap-8
+                text-[16px] md:text-[18px]
                 font-semibold
                 leading-none
                 text-black/85
@@ -171,17 +171,19 @@ export default function Header({ openShopAll }) {
               {/* Login Link */}
               <button
                 onClick={() => navigate('/login')}
-                className="flex items-center leading-none hover:text-red-500 transition font-semibold cursor-pointer title"
+                className="flex items-center leading-none hover:text-red-500 transition cursor-pointer title"
               >
-                Account
+                <CircleUserRound className="w-6 h-6 md:hidden" />
+                <span className="hidden md:inline title">Account</span>
               </button>
 
               {/* Cart Icon */}
               <button
                 onClick={() => navigate('/cart')}
-                className="flex items-center leading-none hover:text-red-500 transition relative font-semibold cursor-pointer title"
+                className="flex items-center leading-none hover:text-red-500 transition relative cursor-pointer title"
               >
-                Bag
+                <TbPaperBag className="w-6 h-6 md:hidden" />
+                <span className="hidden md:inline title">Bag</span>
                 {cartItemCount > 0 && (
                   <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-red-500 rounded-full" />
                 )}
@@ -191,7 +193,7 @@ export default function Header({ openShopAll }) {
               <div className="relative" ref={langDropdownRef}>
                 <button
                   onClick={() => setIsLangOpen(!isLangOpen)}
-                  className="flex items-center gap-1 font-semibold leading-none hover:text-red-500 transition cursor-pointer title"
+                  className="flex items-center gap-1 leading-none hover:text-red-500 transition cursor-pointer title"
                 >
                   {selectedLang}
                   <ChevronDown className="w-4 h-4" strokeWidth={2.5} />
@@ -199,13 +201,13 @@ export default function Header({ openShopAll }) {
 
                 {/* Dropdown Menu */}
                 {isLangOpen && (
-                  <div className="absolute right-0 top-full mt-4 bg-white border border-black/10 rounded-lg shadow-lg py-3 min-w-[160px] z-50">
+                  <div className="absolute right-0 top-full mt-4 bg-white border border-black/10 rounded-lg shadow-lg py-3 min-w-[140px] md:min-w-[160px] z-50">
                     <button
                       onClick={() => {
                         setSelectedLang("EN");
                         setIsLangOpen(false);
                       }}
-                      className="w-full px-7 py-3.5 text-left text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
+                      className="w-full px-5 py-3 md:px-7 md:py-3.5 text-left text-[14px] md:text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
                     >
                       English
                     </button>
@@ -214,7 +216,7 @@ export default function Header({ openShopAll }) {
                         setSelectedLang("AR");
                         setIsLangOpen(false);
                       }}
-                      className="w-full px-7 py-3.5 text-left text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
+                      className="w-full px-5 py-3 md:px-7 md:py-3.5 text-left text-[14px] md:text-[16px] hover:text-red-500 transition font-medium cursor-pointer title"
                     >
                       Arabic
                     </button>

@@ -99,7 +99,6 @@ body {
     /* Adjust distance */
     opacity: 0.4;
     filter: blur(4px) grayscale(100%);
-    cursor: pointer;
 }
 
 .hero-item.right {
@@ -107,128 +106,13 @@ body {
     transform: scale(0.8) translateX(400px);
     opacity: 0.4;
     filter: blur(4px) grayscale(100%);
-    cursor: pointer;
 }
 
-.hero-text-content {
-    text-align: center;
-    margin-top: 2rem;
-    z-index: 20;
-}
-
-.hero-product-title {
-    font-family: "Rosemartin", serif;
-    font-size: 4rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -1px;
-    line-height: 1.1;
-}
-
-.hero-product-desc {
-    /* font-family: 'Inter', sans-serif; - Inherited from body */
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.hero-cta {
-    margin-top: 2rem;
-    background: transparent;
-    color: #000;
-    border: 1px solid #000;
-    padding: 1rem 3rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.hero-cta:hover {
-    background: #000;
-    color: #fff;
-}
-
-/* Hide original MainContent stuff or delete */
-.home-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.home-header {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-}
-
-.logo-small {
-    font-size: 1.5rem;
-    /* Or use an img if better */
-    filter: grayscale(1);
-}
-
-.carousel-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 4rem;
-    /* Space for footer */
-}
-
-.carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    height: 400px;
-    /* Adjust as needed */
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-}
-
-.carousel-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-}
-
-.carousel-item img {
-    max-height: 100%;
-    width: auto;
-    object-fit: contain;
-    /* Optional shadow for the clothing items */
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-}
-
-.active-item {
-    z-index: 2;
-    height: 100%;
-}
+/* ... existing code ... */
 
 .side-item {
     z-index: 1;
     height: 60%;
-    cursor: pointer;
     position: relative;
     /* For arrows */
 }

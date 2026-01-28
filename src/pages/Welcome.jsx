@@ -10,7 +10,7 @@ import Lightning from "../UI/Lightning";
 // === COIN MODEL COMPONENT ===
 function CoinModel({ url, onComplete, clicked }) {
   const group = useRef();
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}${url}`);
   const { camera } = useThree();
 
   // Continuous slow rotation
@@ -97,7 +97,7 @@ export default function IntroScene() {
 
       {/* 3D Coin */}
       <div
-        className="absolute inset-0 cursor-pointer z-10"
+        className="absolute inset-0 z-10"
         onClick={handleClick}
       >
         <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
@@ -105,7 +105,7 @@ export default function IntroScene() {
           <directionalLight position={[10, 10, 10]} intensity={1} />
           <pointLight position={[-10, -10, -10]} intensity={0.5} />
           <CoinModel
-            url="/pendant.glb"
+            url="pendant.glb"
             onComplete={goToHome}
             clicked={clicked}
           />

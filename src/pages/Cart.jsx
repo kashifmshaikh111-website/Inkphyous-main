@@ -16,13 +16,13 @@ const Cart = () => {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 pt-32 pb-12 md:px-0 relative">
                 <button
-                    onClick={() => navigate('/')}
-                    className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group z-[60] cursor-pointer transform hover:scale-110"
+                    onClick={() => navigate(-1)}
+                    className="absolute top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
                 >
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
-                        <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
+                        <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
                     </div>
-                    <span className="font-medium text-sm sm:text-base">Back</span>
+                    <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
                 </button>
 
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl">
@@ -37,7 +37,7 @@ const Cart = () => {
 
                     <div className="relative px-4 sm:px-6 md:px-12 py-8 sm:py-10 md:py-12 border-t md:border-t-0 md:border-l-2 border-red-500 flex flex-col justify-center">
                         <button
-                            onClick={() => navigate('/')}
+                            onClick={() => navigate(-1)}
                             className="w-full py-6 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 font-bold uppercase tracking-widest text-lg"
                         >
                             Continue Shopping
@@ -51,16 +51,16 @@ const Cart = () => {
     return (
         <div className="min-h-screen w-full flex flex-col bg-white relative">
             <button
-                onClick={() => navigate('/')}
-                className="absolute top-6 left-6 z-[60] flex items-center gap-2 text-gray-800 hover:text-red-500 transition-all duration-300 group cursor-pointer"
+                onClick={() => navigate(-1)}
+                className="absolute top-4 left-4 sm:top-8 sm:left-8 z-[70] flex items-center gap-3 group cursor-pointer"
             >
-                <div className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all">
-                    <ArrowLeft size={18} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
+                    <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
                 </div>
-                <span className="font-medium text-base">Back</span>
+                <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">Back</span>
             </button>
 
-            <div className="flex-1 flex flex-col w-full pt-20 px-4 md:px-0">
+            <div className="flex-1 flex flex-col w-full pt-32 md:pt-36 px-4 md:px-0">
 
                 <div className="w-full h-[65vh] grid grid-cols-1 md:grid-cols-[49%_48%] overflow-hidden mb-12">
 
@@ -77,64 +77,67 @@ const Cart = () => {
                     {/* RIGHT SIDE - SCROLLABLE ITEMS IN CARDS */}
                     <div className="h-full border-l border-red-500 flex flex-col px-4 overflow-hidden relative">
                         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-4 py-4">
-                            {cartItems.map((item, index) => (
-                                <div key={index} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow flex h-[60vh] w-full">
-                                    {/* Product Image - Left Side */}
-                                    <div className="w-1/2 overflow-hidden flex items-center justify-center bg-white rounded-l">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-full h-full object-contain p-6"
-                                        />
-                                    </div>
-
-                                    {/* Product Details - Right Side */}
-                                    <div className="w-1/2 p-8 flex flex-col justify-center gap-6">
-                                        <div className="space-y-4">
-                                            <h3 className="text-3xl font-bold text-gray-900">{item.name}</h3>
-
-                                            {item.color && (
-                                                <p className="text-lg text-gray-600">Color: <span className="font-medium">{item.color}</span></p>
-                                            )}
-                                            {item.size && (
-                                                <p className="text-lg text-gray-600">Size: <span className="font-medium">{item.size}</span></p>
-                                            )}
-
-                                            <div className="border-t border-gray-200 pt-4">
-                                                <p className="text-4xl font-bold text-gray-900">
-                                                    ₹{(item.discountPriceINR || item.priceINR) * (item.quantity || 1)}
-                                                </p>
-                                            </div>
+                            {cartItems.map((item, index) => {
+                                const isSingleItem = cartItems.length === 1;
+                                return (
+                                    <div key={index} className={`bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow flex w-full ${isSingleItem ? 'h-[60vh]' : 'h-52'}`}>
+                                        {/* Product Image - Left Side */}
+                                        <div className={`w-1/3 overflow-hidden flex items-center justify-center bg-white rounded-l`}>
+                                            <img
+                                                src={item.image}
+                                                alt={item.name}
+                                                className={`w-full h-full object-contain ${isSingleItem ? 'p-6' : 'p-2'}`}
+                                            />
                                         </div>
 
-                                        {/* Quantity Controls & Delete */}
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center border-2 border-gray-300 rounded">
-                                                <button
-                                                    onClick={() => updateQuantity(index, Math.max(1, (item.quantity || 1) - 1))}
-                                                    className="p-3 hover:bg-gray-100 transition"
-                                                >
-                                                    <Minus className="w-5 h-5" />
-                                                </button>
-                                                <span className="px-6 py-2 text-lg font-medium min-w-[3rem] text-center">{item.quantity || 1}</span>
-                                                <button
-                                                    onClick={() => updateQuantity(index, (item.quantity || 1) + 1)}
-                                                    className="p-3 hover:bg-gray-100 transition"
-                                                >
-                                                    <Plus className="w-5 h-5" />
-                                                </button>
+                                        {/* Product Details - Right Side */}
+                                        <div className={`w-2/3 flex flex-col justify-center ${isSingleItem ? 'p-8 gap-6' : 'p-4 gap-3'}`}>
+                                            <div className={`${isSingleItem ? 'space-y-4' : 'space-y-2'}`}>
+                                                <h3 className={`${isSingleItem ? 'text-3xl' : 'text-xl'} font-bold text-gray-900`}>{item.name}</h3>
+
+                                                {item.color && (
+                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>Color: <span className="font-medium">{item.color}</span></p>
+                                                )}
+                                                {item.size && (
+                                                    <p className={`${isSingleItem ? 'text-lg' : 'text-sm'} text-gray-600`}>Size: <span className="font-medium">{item.size}</span></p>
+                                                )}
+
+                                                <div className={`border-t border-gray-200 ${isSingleItem ? 'pt-4' : 'pt-2'}`}>
+                                                    <p className={`${isSingleItem ? 'text-4xl' : 'text-2xl'} font-bold text-gray-900`}>
+                                                        ₹{(item.discountPriceINR || item.priceINR) * (item.quantity || 1)}
+                                                    </p>
+                                                </div>
                                             </div>
 
-                                            <button
-                                                onClick={() => removeFromCart(index)}
-                                                className="text-gray-400 hover:text-red-500 transition p-3"
-                                            >
-                                                <Trash2 className="w-6 h-6" />
-                                            </button>
+                                            {/* Quantity Controls & Delete */}
+                                            <div className="flex items-center justify-between">
+                                                <div className={`flex items-center border border-gray-300 rounded ${isSingleItem ? '' : 'h-8'}`}>
+                                                    <button
+                                                        onClick={() => updateQuantity(index, Math.max(1, (item.quantity || 1) - 1))}
+                                                        className={`${isSingleItem ? 'p-3' : 'px-2 h-full'} hover:bg-gray-100 transition flex items-center justify-center`}
+                                                    >
+                                                        <Minus className={`${isSingleItem ? 'w-5 h-5' : 'w-3 h-3'}`} />
+                                                    </button>
+                                                    <span className={`${isSingleItem ? 'px-6 py-2 text-lg min-w-[3rem]' : 'px-3 text-sm min-w-[2rem]'} font-medium text-center flex items-center justify-center`}>{item.quantity || 1}</span>
+                                                    <button
+                                                        onClick={() => updateQuantity(index, (item.quantity || 1) + 1)}
+                                                        className={`${isSingleItem ? 'p-3' : 'px-2 h-full'} hover:bg-gray-100 transition flex items-center justify-center`}
+                                                    >
+                                                        <Plus className={`${isSingleItem ? 'w-5 h-5' : 'w-3 h-3'}`} />
+                                                    </button>
+                                                </div>
+
+                                                <button
+                                                    onClick={() => removeFromCart(index)}
+                                                    className={`text-gray-400 hover:text-red-500 transition cursor-pointer ${isSingleItem ? 'p-3' : 'p-2'}`}
+                                                >
+                                                    <Trash2 className={`${isSingleItem ? 'w-6 h-6' : 'w-4 h-4'}`} />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -164,7 +167,7 @@ const Cart = () => {
                             </button>
 
                             <button
-                                onClick={() => navigate('/')}
+                                onClick={() => navigate(-1)}
                                 className="w-full py-5 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 font-semibold uppercase tracking-wider cursor-pointer text-sm"
                             >
                                 Continue Shopping
