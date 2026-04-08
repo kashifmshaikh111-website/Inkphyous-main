@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+
 import ErrorBoundary from "./components/ErrorBoundary";
-import Opener from "./components/3DModel";
-import Welcome from "./pages/Welcome";
-import Home from "./pages/Home"
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LogoScene from "./components/LogoScene";
+
+import Home from "./pages/Home";
 import ProductDisplay from "./pages/PDP";
 import Checkout from "./pages/Checkout";
 import PDPC from "./pages/PDPC";
@@ -14,26 +16,28 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Cart from "./pages/Cart";
+
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "./components/Footer";
-import LogoScene from "./components/LogoScene";
 import "./App.css";
 
 function App() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => window.location.pathname === "/");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleIntroComplete = () => {
     setShowIntro(false);
-    // navigate('/'); // Ensure we start at Home
   };
 
-  // Force reset cursor to default to fix any stuck states
   useEffect(() => {
-    document.body.style.cursor = 'default';
+    document.body.style.cursor = "default";
   }, []);
 
-  // Show logo intro first
+  // ✅ Detect PDPC route
+  const isPDPCPage = location.pathname.startsWith("/pdpc");
+  const isHomePage = location.pathname === "/";
+
+  // ✅ Intro screen
   if (showIntro) {
     return (
       <div className="app-container">
@@ -44,33 +48,38 @@ function App() {
     );
   }
 
-  // After intro, show main website
   return (
     <ErrorBoundary>
       <div
+        className="min-h-screen flex flex-col"
         style={{
           zoom: "75%",
           animation: "fadeIn 1200ms ease-out",
-          opacity: 1
+          opacity: 1,
         }}
       >
-        {/* Always show Header */}
-        < Header />
+        {/* HEADER */}
+        <Header />
 
-        <Routes>
-          {/* <Route path="/" element={<Welcome />} /> */}
-          <Route path="/" element={<Home />} />
+        {/* MAIN CONTENT */}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDisplay />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/pdpc/:id" element={<PDPC />} />
+            <Route path="/legal" element={<Legal />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </div>
 
-          <Route path="/product/:id" element={<ProductDisplay />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/pdpc/:id" element={<PDPC />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
+        {/* FOOTER (hidden on PDPC and Home — Home has its own integrated footer) */}
+        {!isPDPCPage && !isHomePage && <Footer />}
+
         <Analytics />
       </div>
     </ErrorBoundary>

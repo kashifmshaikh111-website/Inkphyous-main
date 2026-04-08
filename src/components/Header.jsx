@@ -132,7 +132,7 @@ export default function Header({ openShopAll }) {
       {/* Floating Editorial Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-transparent/80 backdrop-blur-md border-b border-black/0">
         <div className="px-4 py-3 md:px-12 md:py-5">
-          <div className="flex items-center justify-between relative">
+          <div className= "flex items-center justify-between relative">
 
             {/* LEFT — BRAND */}
             <Link

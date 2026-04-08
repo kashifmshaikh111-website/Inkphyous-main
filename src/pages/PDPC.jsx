@@ -31,13 +31,13 @@ export default function PDPC() {
       </div>
     );
 
-  // Temporary: repeat same image 4 times
-  const images = selectedVariant.images && selectedVariant.images.length > 0
-    ? selectedVariant.images
-    : Array(4).fill(selectedVariant.image);
+  const images =
+    selectedVariant.images && selectedVariant.images.length > 0
+      ? selectedVariant.images
+      : Array(4).fill(selectedVariant.image);
 
   return (
-    <div className="relative min-h-screen bg-white flex flex-col">
+    <div className="cursor-default relative min-h-screen bg-white flex flex-col">
       {/* Scrollable Image Section */}
       <div className="flex-grow overflow-y-auto">
         {images.map((img, index) => (
@@ -45,7 +45,7 @@ export default function PDPC() {
             <img
               src={img}
               alt={`${product.name} - ${index + 1}`}
-              className="w-full h-full object-contain "
+              className="w-full h-full object-contain"
             />
           </div>
         ))}
@@ -58,8 +58,8 @@ export default function PDPC() {
           <p className="text-lg font-extrabold text-red-500 uppercase">
             Feed Your Soul
           </p>
-          <h2 className="text-2xl font-bold text-gray-900">{product.name}</h2>
-          <p className="text-xl font-semibold text-gray-800">
+          <h2 className="text-3xl font-bold text-gray-900 title">{product.name}</h2>
+          <p className="text-2xl font-semibold text-gray-800">
             ₹{selectedVariant.priceINR}
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function PDPC() {
           <select
             value={selectedSize}
             onChange={(e) => setSelectedSize(e.target.value)}
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 cursor-pointer"
           >
             <option value="">Select size</option>
             {product.sizeOptions.map((size) => (
@@ -82,7 +82,7 @@ export default function PDPC() {
           <motion.button
             className={`px-6 py-2 rounded-full text-lg uppercase tracking-wider transition-colors ${
               selectedSize
-                ? "bg-gray-900 text-white hover:bg-gray-700"
+                ? "bg-gray-900 text-white hover:bg-red-500 cursor-pointer"
                 : "bg-gray-400 text-gray-200 cursor-not-allowed"
             }`}
             whileHover={{ scale: selectedSize ? 1.05 : 1 }}

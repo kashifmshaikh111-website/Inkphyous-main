@@ -41,7 +41,7 @@ function Logo({ zooming, onZoomEnd, onClick }) {
         model.position.x += size.x * 0.15;
 
         // Scale
-        model.scale.set(6, 6, 6);
+        model.scale.set(10, 10, 10);
 
         // Add to scene
         modelRef.current.add(model);
@@ -174,6 +174,40 @@ export default function LogoScene({ onIntroComplete }) {
                 />
                 <Environment preset="sunset" />
             </Canvas>
+
+            {/* Flashing hint text */}
+            {!zooming && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: "57%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        textAlign: "center",
+                        zIndex: 10001,
+                        pointerEvents: "none",
+                    }}
+                >
+                    <p
+                        style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: "12px",
+                            color: "#444",
+                            fontWeight: 500,
+                            animation: "pulseText 2s ease-in-out infinite",
+                        }}
+                    >
+                        Press logo to continue
+                    </p>
+                </div>
+            )}
+
+            <style>{`
+                @keyframes pulseText {
+                    0%, 100% { opacity: 0.3; }
+                    50% { opacity: 1; }
+                }
+            `}</style>
         </div>
     );
 }

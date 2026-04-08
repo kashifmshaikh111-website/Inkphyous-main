@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { getLegalContent } from '../Utils/LegalData';
@@ -7,20 +7,40 @@ import { getLegalContent } from '../Utils/LegalData';
 export default function LegalitiesPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const [activePage, setActivePage] = useState('home');
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialTab = queryParams.get('tab') || 'home';
+  const [activePage, setActivePage] = useState(initialTab);
 
   const renderHome = () => (
     <div className="min-h-screen pt-32 pb-12 bg-white flex items-center justify-center px-4 relative">
       {/* BACK BUTTON */}
       <button
-        onClick={() => navigate('/')}
-        className="fixed top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
-      >
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:border-red-500 transition-all duration-300">
-          <ArrowLeft size={20} className="text-gray-600 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
-        </div>
-        <span className="font-medium text-sm sm:text-base text-gray-600 group-hover:text-red-500 transition-colors">{t('back')}</span>
-      </button>
+  onClick={() => navigate('/')}
+  className="fixed top-4 left-4 sm:top-8 sm:left-8 z-[60] flex items-center gap-3 group cursor-pointer"
+>
+  <div
+    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full 
+               bg-white border border-gray-200 shadow-sm 
+               flex items-center justify-center 
+               transition-all duration-300
+               group-hover:bg-red-500 group-hover:border-red-500"
+  >
+    <ArrowLeft
+      size={20}
+      strokeWidth={1.5}
+      className="text-gray-600 transition-colors duration-300 group-hover:text-white"
+    />
+  </div>
+
+  <span
+    className="font-medium text-sm sm:text-base text-gray-600 
+               transition-colors duration-300 
+               group-hover:text-red-500"
+  >
+    {t('back')}
+  </span>
+</button>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-[49%_52%] mt-16 sm:mt-0">
         {/* Left Section - Legalities */}

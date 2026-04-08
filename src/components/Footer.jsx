@@ -5,12 +5,7 @@ import { useLanguage } from "./LanguageContext";
 const Footer = () => {
   const { t } = useLanguage();
   return (
-    <footer
-      className="fixed bottom-8 right-12 md:right-16 z-40 text-[18px] font-semibold text-black/90 flex gap-8"
-      style={{
-        background: 'transparent',
-      }}
-    >
+  <footer className=" py-10 w-full flex justify-end pr-12 pb-8 text-[18px] font-semibold text-black/90 gap-8">
       {/* Contact Link */}
       <Link
         to="/contact"
