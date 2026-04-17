@@ -1,27 +1,91 @@
 // ---------- PRODUCT IMAGES (Main) ----------
 import Product1v1 from '../assets/JR1_Black.png';
+
 import Product2v1 from '../assets/JE1_Green.png';
 import Product3v1 from '../assets/JB1_White.png';
 import Product4v1 from '../assets/JH1_White.png';
 import Product5v1 from '../assets/RT1_White.png';
 
 // ---------- VARIANT IMAGES (New) ----------
-import JR1_Black from '../assets/JR1_Black.png';
-import JR1_Pink from '../assets/JR1_Pink.png';
-import JR1_Grey from '../assets/JR1_Grey.png';
+import JR1_Black from '../assets/JR1_Black_1.jpeg';
+import JR1_Black_2 from '../assets/JR1_Black_2.jpeg';
+import JR1_Black_3 from '../assets/JR1_Black_3.jpeg';
+import JR1_Black_4 from '../assets/JR1_Black_4.jpeg';
+import JR1_Black_5 from '../assets/JR1_Black_5.jpeg';
+import JR1_Black_6 from '../assets/JR1_Black_6.jpeg';
+import JR1_Pink from '../assets/JR1_Pink_1.jpeg';
+import JR1_Pink_2 from '../assets/JR1_Pink_2.jpeg';
+import JR1_Pink_3 from '../assets/JR1_Pink_3.jpeg';
+import JR1_Pink_4 from '../assets/JR1_Pink_4.jpeg';
+import JR1_Pink_5 from '../assets/JR1_Pink_5.jpeg';
+import JR1_Pink_6 from '../assets/JR1_Pink_6.jpeg';
+import HeroPink from '../assets/JR1_Pink.png';
 
-import JE1_Green from '../assets/JE1_Green.png';
-import JE1_White from '../assets/JE1_White.png';
-import JE1_Blue from '../assets/JE1_Blue.png';
+import JR1_Grey_1 from '../assets/JR1_Grey_1.jpeg';
+import JR1_Grey_2 from '../assets/JR1_Grey_2.jpeg';
+import JR1_Grey_3 from '../assets/JR1_Grey_3.jpeg';
+import JR1_Grey_4 from '../assets/JR1_Grey_4.jpeg';
+import JR1_Grey_5 from '../assets/JR1_Grey_5.jpeg';
+import HeroGrey from '../assets/JR1_Grey.png';
 
-import JB1_White from '../assets/JB1_White.png';
-import JB1_Black from '../assets/JB1_Black.png';
+import HeroGreen from '../assets/JE1_Green.png';
+import JE1_Green_1 from '../assets/JE1_Green_1.jpeg';
+import JE1_Green_2 from '../assets/JE1_Green_2.jpeg';
+import JE1_Green_3 from '../assets/JE1_Green_3.jpeg';
+import JE1_Green_4 from '../assets/JE1_Green_4.JPG';
+import JE1_Green_5 from '../assets/JE1_Green_5.JPG';
 
-import JH1_White from '../assets/JH1_White.png';
-import JH1_Black from '../assets/JH1_Black.png';
+import HeroWhite from '../assets/JE1_White.png';
+import JE1_White_1 from '../assets/JE1_White_1.jpeg';
+import JE1_White_2 from '../assets/JE1_White_2.jpeg';
+import JE1_White_3 from '../assets/JE1_White_3.JPG';
+import JE1_White_4 from '../assets/JE1_White_4.jpeg';
+import JE1_White_5 from '../assets/JE1_White_5.jpeg';
 
-import RT1_White from '../assets/RT1_White.png';
-import RT1_Black from '../assets/RT1_Black.png';
+import HeroBlue from '../assets/JE1_Blue.png';
+import JE1_Blue_1 from '../assets/JE1_Blue_1.jpeg';
+import JE1_Blue_2 from '../assets/JE1_Blue_2.jpeg';
+import JE1_Blue_3 from '../assets/JE1_Blue_3.jpeg';
+import JE1_Blue_4 from '../assets/JE1_Blue_4.jpeg';
+import JE1_Blue_5 from '../assets/JE1_Blue_5.JPG';
+
+import HeroBoxWhite from '../assets/JB1_White.png';
+import JB1_White_1 from '../assets/JB1_White_1.png';
+import JB1_White_2 from '../assets/JB1_White_2.PNG';
+import JB1_White_3 from '../assets/JB1_White_3.jpeg';
+import JB1_White_4 from '../assets/JB1_White_4.JPG';
+import JB1_White_5 from '../assets/JB1_White_5.JPG';
+
+import HeroBoxBlack from '../assets/JB1_Black.png';
+import JB1_Black_1 from '../assets/JB1_Black_1.jpeg';
+import JB1_Black_2 from '../assets/JB1_Black_2.jpeg';
+import JB1_Black_3 from '../assets/JB1_Black_3.JPG';
+import JB1_Black_4 from '../assets/JB1_Black_4.JPG';
+import JB1_Black_5 from '../assets/JB1_Black_5.JPG';
+
+import HeroJhortsWhite from '../assets/JH1_White.png';
+import JH1_White_1 from '../assets/JH1_White_1.jpeg';
+import JH1_White_2 from '../assets/JH1_White_2.jpeg';
+import JH1_White_3 from '../assets/JH1_White_3.JPG';
+import JH1_White_4 from '../assets/JH1_White_4.JPG';
+
+import HeroJhortsBlack from '../assets/JH1_Black.png';
+import JH1_Black_1 from '../assets/JH1_Black_1.JPG';
+import JH1_Black_2 from '../assets/JH1_Black_2.JPG';
+import JH1_Black_3 from '../assets/JH1_Black_3.JPG';
+import JH1_Black_4 from '../assets/JH1_Black_4.png';
+
+import HeroTrackWhite from '../assets/RT1_White.png';
+import RT1_White_1 from '../assets/RT1_White_1.JPG';
+import RT1_White_2 from '../assets/RT1_White_2.JPG';
+import RT1_White_3 from '../assets/RT1_White_3.JPG';
+import RT1_White_4 from '../assets/RT1_White_4.JPG';
+
+import HeroTrackBlack from '../assets/RT1_Black.png';
+import RT1_Black_1 from '../assets/RT1_Black_1.jpeg';
+import RT1_Black_2 from '../assets/RT1_Black_2.JPG';
+import RT1_Black_3 from '../assets/RT1_Black_3.JPG';
+import RT1_Black_4 from '../assets/RT1_Black_4.JPG';
 
 // 🛑 Hardcoded Size Chart Structure
 const universalSizeChart = {
@@ -102,7 +166,15 @@ const products = [
         size: "M",
         priceINR: 1999,
         inStock: true,
-        image: JR1_Black
+        image: Product1v1,
+        images: [
+          JR1_Black,
+          JR1_Black_2,
+          JR1_Black_3,
+          JR1_Black_4,
+          JR1_Black_5,
+          JR1_Black_6,
+        ],
       },
       {
         id: "JSY-2025-RPT-PNK-L",
@@ -111,7 +183,15 @@ const products = [
         size: "L",
         priceINR: 1999,
         inStock: true,
-        image: JR1_Pink
+        image: HeroPink,
+        images: [
+          JR1_Pink,
+          JR1_Pink_2,
+          JR1_Pink_3,
+          JR1_Pink_4,
+          JR1_Pink_5,
+          JR1_Pink_6,
+        ],
       },
       {
         id: "JSY-2025-RPT-GRY-XL",
@@ -120,7 +200,14 @@ const products = [
         size: "XL",
         priceINR: 1999,
         inStock: true,
-        image: JR1_Grey
+        image: HeroGrey,
+        images: [
+          JR1_Grey_1,
+          JR1_Grey_2,
+          JR1_Grey_3,
+          JR1_Grey_4,
+          JR1_Grey_5,
+        ],
       },
     ],
 
@@ -138,7 +225,7 @@ const products = [
     name: "Jersey Elements",
     name_ar: "قميص العناصر",
     brand: "Inkphyous",
-    image: Product2v1,
+    image: HeroGreen,
     category: "Jerseys",
     priceINR: 2399,
     discountPriceINR: 1899,
@@ -179,7 +266,14 @@ const products = [
         size: "M",
         priceINR: 1899,
         inStock: true,
-        image: JE1_Green
+        image: HeroGreen,
+        images: [
+          JE1_Green_1,
+          JE1_Green_2,
+          JE1_Green_3,
+          JE1_Green_4,
+          JE1_Green_5,
+        ],
       },
       {
         id: "JSY-2025-ELE-WHT-L",
@@ -188,7 +282,14 @@ const products = [
         size: "L",
         priceINR: 1899,
         inStock: true,
-        image: JE1_White
+        image: HeroWhite,
+        images: [
+          JE1_White_1,
+          JE1_White_2,
+          JE1_White_3,
+          JE1_White_4,
+          JE1_White_5,
+        ],
       },
       {
         id: "JSY-2025-ELE-BLU-XL",
@@ -197,7 +298,14 @@ const products = [
         size: "XL",
         priceINR: 1899,
         inStock: false,
-        image: JE1_Blue
+        image: HeroBlue,
+        images: [
+          JE1_Blue_1,
+          JE1_Blue_2,
+          JE1_Blue_3,
+          JE1_Blue_4,
+          JE1_Blue_5,
+        ],
       },
     ],
 
@@ -215,7 +323,7 @@ const products = [
     name: "Jersey Box Fitted",
     name_ar: "قميص بوكس فيت",
     brand: "Inkphyous",
-    image: Product3v1,
+    image: HeroBoxWhite,
     category: "Jerseys",
     priceINR: 2299,
     discountPriceINR: 1799,
@@ -253,7 +361,14 @@ const products = [
         size: "M",
         priceINR: 1799,
         inStock: true,
-        image: JB1_White
+        image: HeroBoxWhite,
+        images: [
+          JB1_White_1,
+          JB1_White_2,
+          JB1_White_3,
+          JB1_White_4,
+          JB1_White_5,
+        ],
       },
       {
         id: "JSY-2025-BOX-BLK-L",
@@ -262,7 +377,14 @@ const products = [
         size: "L",
         priceINR: 1799,
         inStock: true,
-        image: JB1_Black
+        image: HeroBoxBlack,
+        images: [
+          JB1_Black_1,
+          JB1_Black_2,
+          JB1_Black_3,
+          JB1_Black_4,
+          JB1_Black_5,
+        ],
       },
     ],
 
@@ -280,7 +402,7 @@ const products = [
     name: "Polyester Jhorts",
     name_ar: "شورت بوليستر",
     brand: "Inkphyous",
-    image: Product4v1,
+    image: HeroJhortsWhite,
     category: "Jhorts",
     priceINR: 1899,
     discountPriceINR: 1499,
@@ -318,7 +440,13 @@ const products = [
         size: "M",
         priceINR: 1499,
         inStock: true,
-        image: JH1_White
+        image: HeroJhortsWhite,
+        images: [
+          JH1_White_1,
+          JH1_White_2,
+          JH1_White_3,
+          JH1_White_4,
+        ],
       },
       {
         id: "JRT-2025-DIA-BLK-L",
@@ -327,7 +455,13 @@ const products = [
         size: "L",
         priceINR: 1499,
         inStock: true,
-        image: JH1_Black
+        image: HeroJhortsBlack,
+        images: [
+          JH1_Black_1,
+          JH1_Black_2,
+          JH1_Black_3,
+          JH1_Black_4,
+        ],
       },
     ],
 
@@ -345,7 +479,7 @@ const products = [
     name: "Relax Trackpants",
     name_ar: "بنطال رياضي مريح",
     brand: "Inkphyous",
-    image: Product5v1,
+    image: HeroTrackWhite,
     category: "Pants",
     priceINR: 2199,
     discountPriceINR: 1799,
@@ -383,7 +517,13 @@ const products = [
         size: "M",
         priceINR: 1799,
         inStock: true,
-        image: RT1_White
+        image: HeroTrackWhite,
+        images: [
+          RT1_White_1,
+          RT1_White_2,
+          RT1_White_3,
+          RT1_White_4,
+        ],
       },
       {
         id: "TRK-2025-RLX-BLK-L",
@@ -392,7 +532,13 @@ const products = [
         size: "L",
         priceINR: 1799,
         inStock: true,
-        image: RT1_Black
+        image: HeroTrackBlack,
+        images: [
+          RT1_Black_1,
+          RT1_Black_2,
+          RT1_Black_3,
+          RT1_Black_4,
+        ],
       },
     ],
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import products from "../Utils/Products";
-import { Plus, Heart, IndianRupee, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Heart, IndianRupee, ChevronLeft, ChevronRight, LayoutGrid, Square, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "../components/CartContext";
 import { useLanguage } from "../components/LanguageContext";
@@ -269,6 +269,8 @@ export default function ProductDisplay() {
   const [showNotification, setShowNotification] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [heroActiveIndex, setHeroActiveIndex] = useState(0);
+  const [viewMode, setViewMode] = useState("stack");
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const defaultId = products[0]?.variants[0]?.id || "v1_black";
   const productId = id || defaultId;
@@ -302,11 +304,19 @@ export default function ProductDisplay() {
     );
   }
 
-  const productImages = product.variants.map((v) => ({
-    id: v.id,
-    url: v.image,
-    color: v.color,
-  }));
+  const productImages = product.variants
+    .filter((v) => v.id === activeVariantId)
+    .flatMap((v) => {
+      if (v.images && v.images.length > 0) {
+        return v.images.map((imgUrl, idx) => ({
+          id: `${v.id}_img${idx}`,
+          url: imgUrl,
+          color: v.color,
+          variantId: v.id,
+        }));
+      }
+      return [{ id: v.id, url: v.image, color: v.color, variantId: v.id }];
+    });
 
   const handleVariantClick = (variantId) => {
     setActiveVariantId(variantId);
@@ -315,9 +325,25 @@ export default function ProductDisplay() {
     navigate(`/product/${variantId}`);
   };
 
-  const handleImageClick = (variantId) => {
-    navigate(`/pdpc/${product.id}?variantId=${variantId}`);
+  const handleImageClick = (index) => {
+    setLightboxIndex(index);
   };
+
+  const closeLightbox = () => setLightboxIndex(null);
+  const prevLightbox = () => setLightboxIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+  const nextLightbox = () => setLightboxIndex((prev) => (prev + 1) % productImages.length);
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (lightboxIndex === null) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") prevLightbox();
+      if (e.key === "ArrowRight") nextLightbox();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [lightboxIndex, productImages.length]);
 
   const toggleWishlist = () => setIsWishlisted((prev) => !prev);
 
@@ -369,40 +395,58 @@ export default function ProductDisplay() {
       <div className="w-full sm:w-[90%] lg:w-[85%] xl:w-[80%] px-4 sm:px-6 mt-[380px] sm:mt-[440px] md:mt-[520px] lg:mt-[590px] xl:mt-[650px] z-20 relative py-6 sm:py-8 md:py-12">
         <div className="flex flex-col md:flex-row items-start gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-28">
 
-          {/* LEFT COLUMN: stacked product images */}
+          {/* LEFT COLUMN: stacked or grid product images */}
           <div className="w-full md:w-1/2 flex flex-col items-start space-y-4 sm:space-y-6">
-            <div className="text-left">
-              <p className="text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2 secondary leading-relaxed mt-2 font-extrabold text-red-500">
-                Inkphyous
-              </p>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl title font-extrabold tracking-wider text-gray-800">
-                {language === "ar" && product.name_ar
-                  ? product.name_ar
-                  : product.hasVariants
-                  ? product.variants[0].name
-                  : product.name}
-              </h2>
+            <div className="w-full flex justify-between items-end">
+              <div className="text-left">
+                <p className="text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2 secondary leading-relaxed mt-2 font-extrabold text-red-500">
+                  Inkphyous
+                </p>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl title font-extrabold tracking-wider text-gray-800">
+                  {language === "ar" && product.name_ar
+                    ? product.name_ar
+                    : product.hasVariants
+                    ? product.variants[0].name
+                    : product.name}
+                </h2>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-md transition-colors ${viewMode === "grid" ? "text-gray-900 bg-gray-100" : "text-gray-400 hover:text-gray-600"}`}
+                >
+                  <LayoutGrid size={24} />
+                </button>
+                <button
+                  onClick={() => setViewMode("stack")}
+                  className={`p-2 rounded-md transition-colors ${viewMode === "stack" ? "text-gray-900 bg-gray-100" : "text-gray-400 hover:text-gray-600"}`}
+                >
+                  <Square size={24} />
+                </button>
+              </div>
             </div>
 
-            <AnimatePresence>
-              {productImages.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  className="w-full bg-white p-2 cursor-pointer rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] transition-shadow duration-300"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onClick={() => handleImageClick(image.id)}
-                >
-                  <img
-                    src={image.url}
-                    alt={`${product.name} ${image.color}`}
-                    className="w-full h-auto object-contain"
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            <div className={viewMode === "grid" ? "grid grid-cols-2 gap-4 w-full" : "flex flex-col space-y-4 sm:space-y-6 w-full"}>
+              <AnimatePresence>
+                {productImages.map((image, index) => (
+                  <motion.div
+                    key={image.id}
+                    className="w-full bg-white cursor-pointer rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] transition-shadow duration-300 overflow-hidden"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    onClick={() => handleImageClick(index)}
+                  >
+                    <img
+                      src={image.url}
+                      alt={`${product.name} ${image.color}`}
+                      className="w-full h-auto object-cover"
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* RIGHT COLUMN: sticky details panel */}
@@ -566,6 +610,66 @@ export default function ProductDisplay() {
               />
             </svg>
             <span className="font-semibold">{t("addedToBag")}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* FULL-SCREEN LIGHTBOX — Fear of God style */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            className="fixed inset-0 z-[9999] bg-white flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+            >
+              <X size={24} className="text-gray-800" />
+            </button>
+
+            {/* Image counter */}
+            <div className="absolute top-6 left-6 z-50 text-sm text-gray-500 font-medium tracking-wider">
+              {lightboxIndex + 1} / {productImages.length}
+            </div>
+
+            {/* Previous button */}
+            {productImages.length > 1 && (
+              <button
+                onClick={prevLightbox}
+                className="absolute left-4 md:left-8 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+              >
+                <ChevronLeft size={28} className="text-gray-800" />
+              </button>
+            )}
+
+            {/* Main image — fills screen */}
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={lightboxIndex}
+                src={productImages[lightboxIndex]?.url}
+                alt={`${product.name} fullscreen`}
+                className="w-full h-full object-cover"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.25 }}
+              />
+            </AnimatePresence>
+
+            {/* Next button */}
+            {productImages.length > 1 && (
+              <button
+                onClick={nextLightbox}
+                className="absolute right-4 md:right-8 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+              >
+                <ChevronRight size={28} className="text-gray-800" />
+              </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

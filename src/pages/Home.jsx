@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import products from "../Utils/Products";
 import { useLanguage } from "../components/LanguageContext";
@@ -16,6 +16,7 @@ export default function Home() {
     return initial;
   });
   const [imageKey, setImageKey] = useState(0);
+  const [viewMode, setViewMode] = useState("carousel");
   const [lastInteractionTime, setLastInteractionTime] = useState(null);
 
   const selectedColor = colorMap[currentIndex] || null;
@@ -119,12 +120,32 @@ export default function Home() {
     exit: { y: -60, opacity: 0, scale: 0.95 },
   };
 
+  const getGridImageByColor = (product, color) => {
+    if (!color || !product.hasVariants) return product.image;
+    const variant = product.variants.find(
+      (v) => v.color.toLowerCase() === color.toLowerCase()
+    );
+    return variant?.image || product.image;
+  };
+
+  const handleGridProductClick = (product, color) => {
+    let targetId = product.id;
+    if (color && product.hasVariants) {
+      const variant = product.variants.find(
+        (v) => v.color.toLowerCase() === color.toLowerCase()
+      );
+      if (variant) targetId = variant.id;
+    }
+    navigate(`/product/${targetId}?name=${encodeURIComponent(product.name)}`);
+  };
+
   return (
     <div
       className="cursor-default relative w-full bg-[#ececeb] text-[#0f172a] flex flex-col"
       style={{
-        height: "calc(100dvh / 0.75)",
-        overflow: "hidden",
+        height: viewMode === "grid" ? "auto" : "calc(100dvh / 0.75)",
+        minHeight: viewMode === "grid" ? "100dvh" : undefined,
+        overflow: viewMode === "grid" ? "auto" : "hidden",
       }}
     >
 
@@ -139,148 +160,247 @@ export default function Home() {
         />
       </div>
 
-      {/* Main content area — fills all available space */}
-      <div
-        className="relative w-full flex-1 flex flex-col items-center"
-        style={{
-          paddingTop: "90px",
-          minHeight: 0,
-        }}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-
-        {/* CAROUSEL — takes most of the space */}
-        <div className="relative w-full flex-1 flex items-center justify-center" style={{ minHeight: 0 }}>
-
-          {/* LEFT BUTTON */}
-          <button
-            onClick={prevProduct}
-            className="group absolute left-[4%] md:left-[8%] lg:left-[12%] xl:left-[15%] z-40 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full 
-                       bg-white/70 backdrop-blur border border-gray-300 shadow-lg 
-                       transition-all duration-300 
-                       hover:bg-red-500 hover:border-white hover:scale-110
-                       cursor-pointer"
-          >
-            <ChevronLeft className="text-black transition-colors duration-300 group-hover:text-white" />
-          </button>
-
-          {/* CAROUSEL CONTENT */}
-          <div className="relative w-full h-full flex items-center justify-center" style={{ minHeight: 0 }}>
-
-            <AnimatePresence>
-              {products.map((product, i) => {
-                const position = getPosition(i);
-                const isCenter = i === currentIndex;
-                const isPants =
-                  product.name.toLowerCase().includes("pant") ||
-                  product.name.toLowerCase().includes("jhort") ||
-                  product.category?.toLowerCase()?.includes("pant") ||
-                  product.category?.toLowerCase()?.includes("jhort");
-
-                return (
-                  <motion.div
-                    key={product.id}
-                    className="absolute flex items-center justify-center"
-                    custom={isPants}
-                    variants={variants}
-                    animate={position}
-                    initial={false}
-                    transition={{
-                      duration: 0.6,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
-                    {isCenter ? (
-                      <AnimatePresence mode="wait">
-                        <motion.img
-                          key={getImageByColor(product, selectedColor)}
-                          src={getImageByColor(product, selectedColor)}
-                          alt={product.name}
-                          variants={imageVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          transition={{
-                            duration: 0.45,
-                            ease: [0.22, 1, 0.36, 1],
-                          }}
-                          className="object-contain drop-shadow-2xl"
-                          style={{
-                            height: isPants ? "66vh" : "75vh",
-                            maxHeight: isPants ? "800px" : "900px",
-                          }}
-                        />
-                      </AnimatePresence>
-                    ) : (
-                      <img
-                        src={getImageByColor(product, colorMap[i])}
-                        alt={product.name}
-                        className="object-contain drop-shadow-2xl"
-                        style={{ height: "55vh", maxHeight: "600px" }}
-                      />
-                    )}
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-
-          </div>
-
-          {/* RIGHT BUTTON */}
-          <button
-            onClick={nextProduct}
-            className="group absolute right-[4%] md:right-[8%] lg:right-[12%] xl:right-[15%] z-40 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full 
-                       bg-white/70 backdrop-blur border border-gray-300 shadow-lg 
-                       transition-all duration-300 
-                       hover:bg-red-500 hover:border-white hover:scale-110
-                       cursor-pointer"
-          >
-            <ChevronRight className="text-black transition-colors duration-300 group-hover:text-white" />
-          </button>
-
-        </div>
-
-        {/* PRODUCT INFO — compact, sits at bottom of content area */}
-        <div className="relative flex flex-col items-center text-center px-6 max-w-2xl pb-2 z-10" style={{ flexShrink: 0 }}>
-          <h1 className="text-4xl title md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3">
-            {language === "ar" && activeProduct.name_ar
-              ? activeProduct.name_ar
-              : activeProduct.name}
-          </h1>
-
-          <p className="text-sm md:text-base text-black/60 mb-4 md:mb-5">
-            {language === "ar" && activeProduct.summary_ar
-              ? activeProduct.summary_ar
-              : activeProduct.summary}
-          </p>
-
-          {/* COLORS */}
-          <div className="flex gap-5 mb-5 md:mb-6">
-            {activeProduct.availableColors.map((color, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setSelectedColor(color);
-                  setImageKey((k) => k + 1);
-                  setLastInteractionTime(Date.now());
-                }}
-                className={`w-6 h-6 rounded-full transition ${
-                  selectedColor === color ? "scale-165 border-2 border-black" : ""
-                }`}
-                style={{ backgroundColor: color }}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={handleSeeMore}
-            className="px-10 py-3.5 rounded-full bg-[#1f2937] text-white text-sm tracking-wider uppercase hover:bg-red-500 transition cursor-pointer"
-          >
-            {t("seeMore")}
-          </button>
-        </div>
+      {/* VIEW TOGGLE — top right */}
+      <div className="fixed top-20 right-6 z-50 flex gap-1 bg-white/80 backdrop-blur-md rounded-lg p-1 shadow-lg border border-gray-200">
+        <button
+          onClick={() => setViewMode("grid")}
+          className={`p-2.5 rounded-md transition-all duration-200 cursor-pointer ${
+            viewMode === "grid"
+              ? "bg-gray-900 text-white shadow-sm"
+              : "text-gray-400 hover:text-gray-700"
+          }`}
+        >
+          <LayoutGrid size={18} />
+        </button>
+        <button
+          onClick={() => setViewMode("carousel")}
+          className={`p-2.5 rounded-md transition-all duration-200 cursor-pointer ${
+            viewMode === "carousel"
+              ? "bg-gray-900 text-white shadow-sm"
+              : "text-gray-400 hover:text-gray-700"
+          }`}
+        >
+          <Layers size={18} />
+        </button>
       </div>
+
+      {viewMode === "carousel" ? (
+        <>
+          {/* Main content area — fills all available space */}
+          <div
+            className="relative w-full flex-1 flex flex-col items-center"
+            style={{
+              paddingTop: "90px",
+              minHeight: 0,
+            }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+
+            {/* CAROUSEL — takes most of the space */}
+            <div className="relative w-full flex-1 flex items-center justify-center" style={{ minHeight: 0 }}>
+
+              {/* LEFT BUTTON */}
+              <button
+                onClick={prevProduct}
+                className="group absolute left-[4%] md:left-[8%] lg:left-[12%] xl:left-[15%] z-40 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full 
+                           bg-[#ececeb]
+                           transition-all duration-300 
+                           hover:bg-red-500 hover:scale-110
+                           cursor-pointer"
+                style={{ boxShadow: '6px 6px 12px #d1d1cf, -6px -6px 12px #ffffff' }}
+              >
+                <ChevronLeft className="text-black transition-colors duration-300 group-hover:text-white" />
+              </button>
+
+              {/* CAROUSEL CONTENT */}
+              <div className="relative w-full h-full flex items-center justify-center" style={{ minHeight: 0 }}>
+
+                <AnimatePresence>
+                  {products.map((product, i) => {
+                    const position = getPosition(i);
+                    const isCenter = i === currentIndex;
+                    const isPants =
+                      product.name.toLowerCase().includes("pant") ||
+                      product.name.toLowerCase().includes("jhort") ||
+                      product.category?.toLowerCase()?.includes("pant") ||
+                      product.category?.toLowerCase()?.includes("jhort");
+
+                    return (
+                      <motion.div
+                        key={product.id}
+                        className="absolute flex items-center justify-center"
+                        custom={isPants}
+                        variants={variants}
+                        animate={position}
+                        initial={false}
+                        transition={{
+                          duration: 0.6,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        {isCenter ? (
+                          <AnimatePresence mode="wait">
+                            <motion.img
+                              key={getImageByColor(product, selectedColor)}
+                              src={getImageByColor(product, selectedColor)}
+                              alt={product.name}
+                              variants={imageVariants}
+                              initial="initial"
+                              animate="animate"
+                              exit="exit"
+                              transition={{
+                                duration: 0.45,
+                                ease: [0.22, 1, 0.36, 1],
+                              }}
+                              className="object-contain drop-shadow-2xl"
+                              style={{
+                                height: isPants ? "66vh" : "75vh",
+                                maxHeight: isPants ? "800px" : "900px",
+                              }}
+                            />
+                          </AnimatePresence>
+                        ) : (
+                          <img
+                            src={getImageByColor(product, colorMap[i])}
+                            alt={product.name}
+                            className="object-contain drop-shadow-2xl"
+                            style={{ height: "55vh", maxHeight: "600px" }}
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+
+              </div>
+
+              {/* RIGHT BUTTON */}
+              <button
+                onClick={nextProduct}
+                className="group absolute right-[4%] md:right-[8%] lg:right-[12%] xl:right-[15%] z-40 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full 
+                           bg-[#ececeb]
+                           transition-all duration-300 
+                           hover:bg-red-500 hover:scale-110
+                           cursor-pointer"
+                style={{ boxShadow: '6px 6px 12px #d1d1cf, -6px -6px 12px #ffffff' }}
+              >
+                <ChevronRight className="text-black transition-colors duration-300 group-hover:text-white" />
+              </button>
+
+            </div>
+
+            {/* PRODUCT INFO — compact, sits at bottom of content area */}
+            <div className="relative flex flex-col items-center text-center px-6 max-w-2xl pb-2 z-10" style={{ flexShrink: 0 }}>
+              <h1 className="text-4xl title md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3">
+                {language === "ar" && activeProduct.name_ar
+                  ? activeProduct.name_ar
+                  : activeProduct.name}
+              </h1>
+
+              <p className="text-sm md:text-base text-black/60 mb-4 md:mb-5">
+                {language === "ar" && activeProduct.summary_ar
+                  ? activeProduct.summary_ar
+                  : activeProduct.summary}
+              </p>
+
+              {/* COLORS */}
+              <div className="flex gap-5 mb-5 md:mb-6">
+                {activeProduct.availableColors.map((color, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setSelectedColor(color);
+                      setImageKey((k) => k + 1);
+                      setLastInteractionTime(Date.now());
+                    }}
+                    className={`w-6 h-6 rounded-full transition ${
+                      selectedColor === color ? "scale-165 border-2 border-black" : ""
+                    }`}
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={handleSeeMore}
+                className="px-10 py-3.5 rounded-full bg-[#1f2937] text-white text-sm tracking-wider uppercase hover:bg-red-500 transition cursor-pointer"
+              >
+                {t("seeMore")}
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* GRID VIEW */
+        <div className="w-full px-4 sm:px-6 lg:px-8 pt-28 pb-12">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            {products.map((product, i) => {
+              const gridColor = colorMap[i] || product.availableColors[0];
+              return (
+                <motion.div
+                  key={product.id}
+                  className="group bg-white rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  onClick={() => handleGridProductClick(product, gridColor)}
+                >
+                  {/* Image container */}
+                  <div className="relative aspect-square bg-[#f5f5f4] flex items-center justify-center p-6 overflow-hidden">
+                    <img
+                      src={getGridImageByColor(product, gridColor)}
+                      alt={product.name}
+                      className="object-contain h-full w-full drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Product info */}
+                  <div className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="text-xs font-semibold text-red-500 uppercase tracking-wider mb-0.5">
+                          {product.brand}
+                        </p>
+                        <h3 className="text-sm sm:text-base font-bold text-gray-900 title">
+                          {language === "ar" && product.name_ar ? product.name_ar : product.name}
+                        </h3>
+                      </div>
+                      <p className="text-sm sm:text-base font-bold text-gray-900">
+                        ₹{product.discountPriceINR || product.priceINR}
+                      </p>
+                    </div>
+
+                    {/* Color dots */}
+                    <div className="flex gap-2 mt-2">
+                      {product.availableColors.map((color, idx) => (
+                        <button
+                          key={idx}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setColorMap((prev) => ({ ...prev, [i]: color }));
+                          }}
+                          className={`w-4 h-4 rounded-full border transition-all duration-200 cursor-pointer ${
+                            gridColor === color
+                              ? "border-gray-900 scale-125 shadow-sm"
+                              : "border-gray-300 hover:border-gray-500"
+                          }`}
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      )}
 
       {/* FOOTER — integrated into the Home page layout, pinned at bottom */}
       <div className="w-full flex justify-end items-center px-12 py-4" style={{ flexShrink: 0 }}>
