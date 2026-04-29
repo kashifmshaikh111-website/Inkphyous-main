@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { AnimatePresence, LayoutGroup } from "framer-motion";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
@@ -63,18 +64,22 @@ function App() {
 
         {/* MAIN CONTENT */}
         <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDisplay />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/pdpc/:id" element={<PDPC />} />
-            <Route path="/legal" element={<Legal />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
+          <LayoutGroup>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Home />} />
+                <Route path="/product/:id" element={<ProductDisplay />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/pdpc/:id" element={<PDPC />} />
+                <Route path="/legal" element={<Legal />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/cart" element={<Cart />} />
+              </Routes>
+            </AnimatePresence>
+          </LayoutGroup>
         </div>
 
         {/* FOOTER (hidden on PDPC and Home — Home has its own integrated footer) */}

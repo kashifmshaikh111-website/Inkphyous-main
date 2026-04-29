@@ -21,7 +21,7 @@ const getProductAndVariant = (id) => {
   return { product, selectedVariant };
 };
 
-function HeroCarousel({ variants, activeIndex, setActiveIndex }) {
+function HeroCarousel({ productId, variants, activeIndex, setActiveIndex }) {
   const navigate = useNavigate();
 
   const prevVariant = () => {
@@ -98,7 +98,8 @@ function HeroCarousel({ variants, activeIndex, setActiveIndex }) {
           initial={false}
           onClick={() => navigate(`/product/${variant.id}`)}
         >
-          <img
+          <motion.img
+            layoutId={index === activeIndex ? `image-${productId}` : undefined}
             src={variant.image}
             alt={variant.name}
             className="h-[280px] sm:h-[350px] md:h-[420px] lg:h-[490px] xl:h-[550px] w-auto object-contain drop-shadow-2xl relative z-10"
@@ -396,6 +397,7 @@ export default function ProductDisplay() {
         }}
       >
         <HeroCarousel
+          productId={product.id}
           variants={product.variants}
           activeIndex={heroActiveIndex}
           setActiveIndex={setHeroActiveIndex}
@@ -413,13 +415,13 @@ export default function ProductDisplay() {
                 <p className="text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2 secondary leading-relaxed mt-2 font-extrabold text-red-500">
                   Inkphyous
                 </p>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl title font-extrabold tracking-wider text-gray-800">
+                <motion.h2 layoutId={`title-${product.id}`} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl title font-extrabold tracking-wider text-gray-800">
                   {language === "ar" && product.name_ar
                     ? product.name_ar
                     : product.hasVariants
                     ? product.variants[0].name
                     : product.name}
-                </h2>
+                </motion.h2>
               </div>
             </div>
 
@@ -464,7 +466,7 @@ export default function ProductDisplay() {
             {/* Color swatches + size selector */}
             <div className="flex flex-col items-end gap-2">
               <div className="flex items-center justify-end space-x-2 sm:space-x-3">
-                <div className="flex space-x-1.5 sm:space-x-2">
+                <motion.div layoutId={`colors-${product.id}`} className="flex space-x-1.5 sm:space-x-2">
                   {product.variants.slice(0, 3).map((variant) => {
                     const isSelected = activeVariantId === variant.id;
                     return (
@@ -483,7 +485,7 @@ export default function ProductDisplay() {
                       />
                     );
                   })}
-                </div>
+                </motion.div>
 
                 {/* Size dropdown */}
                 <div className="w-24 sm:w-28">

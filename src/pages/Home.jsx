@@ -242,6 +242,7 @@ export default function Home() {
                         {isCenter ? (
                           <AnimatePresence mode="wait">
                             <motion.img
+                              layoutId={`image-${product.id}`}
                               key={getImageByColor(product, selectedColor)}
                               src={getImageByColor(product, selectedColor)}
                               alt={product.name}
@@ -312,6 +313,7 @@ export default function Home() {
                     {/* TITLE */}
                     <div className="overflow-visible mb-4 md:mb-5 pt-1">
                       <motion.h1
+                        layoutId={`title-${activeProduct.id}`}
                         className="text-4xl title md:text-5xl lg:text-6xl font-bold"
                         variants={{
                           initial: { y: "100%", opacity: 0 },
@@ -344,6 +346,7 @@ export default function Home() {
                     {/* COLORS */}
                     <div className="overflow-visible mb-4 md:mb-5 pt-2">
                       <motion.div
+                        layoutId={`colors-${activeProduct.id}`}
                         className="flex gap-5"
                         variants={{
                           initial: { y: "100%", opacity: 0, scale: 0.8 },
