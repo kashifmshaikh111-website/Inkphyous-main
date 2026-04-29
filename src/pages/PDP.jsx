@@ -93,7 +93,7 @@ function HeroCarousel({ variants, activeIndex, setActiveIndex }) {
       {variants.map((variant, index) => (
         <motion.div
           key={variant.id}
-          className="cursor-pointer flex justify-center items-center"
+          className="cursor-pointer flex justify-center items-center relative"
           animate={getVariantStyle(index)}
           initial={false}
           onClick={() => navigate(`/product/${variant.id}`)}
@@ -101,7 +101,7 @@ function HeroCarousel({ variants, activeIndex, setActiveIndex }) {
           <img
             src={variant.image}
             alt={variant.name}
-            className="h-[280px] sm:h-[350px] md:h-[420px] lg:h-[490px] xl:h-[550px] w-fit object-contain"
+            className="h-[280px] sm:h-[350px] md:h-[420px] lg:h-[490px] xl:h-[550px] w-auto object-contain drop-shadow-2xl relative z-10"
           />
         </motion.div>
       ))}
@@ -333,8 +333,15 @@ export default function ProductDisplay() {
   const prevLightbox = () => setLightboxIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
   const nextLightbox = () => setLightboxIndex((prev) => (prev + 1) % productImages.length);
 
-  // Close lightbox on Escape key
+  // Close lightbox on Escape key + hide body scroll
   useEffect(() => {
+    if (lightboxIndex !== null) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
     const handleKey = (e) => {
       if (lightboxIndex === null) return;
       if (e.key === "Escape") closeLightbox();
@@ -342,7 +349,11 @@ export default function ProductDisplay() {
       if (e.key === "ArrowRight") nextLightbox();
     };
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
   }, [lightboxIndex, productImages.length]);
 
   const toggleWishlist = () => setIsWishlisted((prev) => !prev);
@@ -410,28 +421,14 @@ export default function ProductDisplay() {
                     : product.name}
                 </h2>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-md transition-colors ${viewMode === "grid" ? "text-gray-900 bg-gray-100" : "text-gray-400 hover:text-gray-600"}`}
-                >
-                  <LayoutGrid size={24} />
-                </button>
-                <button
-                  onClick={() => setViewMode("stack")}
-                  className={`p-2 rounded-md transition-colors ${viewMode === "stack" ? "text-gray-900 bg-gray-100" : "text-gray-400 hover:text-gray-600"}`}
-                >
-                  <Square size={24} />
-                </button>
-              </div>
             </div>
 
-            <div className={viewMode === "grid" ? "grid grid-cols-2 gap-4 w-full" : "flex flex-col space-y-4 sm:space-y-6 w-full"}>
+            <div className="flex flex-col space-y-4 sm:space-y-6 w-full">
               <AnimatePresence>
                 {productImages.map((image, index) => (
                   <motion.div
                     key={image.id}
-                    className="w-full bg-white cursor-pointer rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] transition-shadow duration-300 overflow-hidden"
+                    className="w-full bg-white cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] transition-shadow duration-300 overflow-hidden"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
@@ -618,7 +615,7 @@ export default function ProductDisplay() {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <motion.div
-            className="fixed inset-0 z-[9999] bg-white flex items-center justify-center"
+            className="fixed inset-0 z-[9999] bg-white overflow-y-auto hide-scrollbar"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -627,13 +624,13 @@ export default function ProductDisplay() {
             {/* Close button */}
             <button
               onClick={closeLightbox}
-              className="absolute top-6 right-6 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+              className="fixed top-6 right-6 z-50 p-4 transition-transform hover:scale-110 cursor-pointer mix-blend-difference text-white"
             >
-              <X size={24} className="text-gray-800" />
+              <X size={32} strokeWidth={1.5} />
             </button>
 
             {/* Image counter */}
-            <div className="absolute top-6 left-6 z-50 text-sm text-gray-500 font-medium tracking-wider">
+            <div className="fixed top-8 left-8 z-50 text-sm font-light tracking-[0.2em] mix-blend-difference text-white">
               {lightboxIndex + 1} / {productImages.length}
             </div>
 
@@ -641,22 +638,22 @@ export default function ProductDisplay() {
             {productImages.length > 1 && (
               <button
                 onClick={prevLightbox}
-                className="absolute left-4 md:left-8 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+                className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 p-4 transition-transform hover:scale-110 cursor-pointer mix-blend-difference text-white"
               >
-                <ChevronLeft size={28} className="text-gray-800" />
+                <ChevronLeft size={44} strokeWidth={1} />
               </button>
             )}
 
-            {/* Main image — fills screen */}
+            {/* Main image — full width, scrollable */}
             <AnimatePresence mode="wait">
               <motion.img
                 key={lightboxIndex}
                 src={productImages[lightboxIndex]?.url}
                 alt={`${product.name} fullscreen`}
-                className="w-full h-full object-cover"
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }}
+                className="w-full h-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
               />
             </AnimatePresence>
@@ -665,9 +662,9 @@ export default function ProductDisplay() {
             {productImages.length > 1 && (
               <button
                 onClick={nextLightbox}
-                className="absolute right-4 md:right-8 z-50 p-3 rounded-full bg-black/5 hover:bg-black/10 transition-colors cursor-pointer"
+                className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 p-4 transition-transform hover:scale-110 cursor-pointer mix-blend-difference text-white"
               >
-                <ChevronRight size={28} className="text-gray-800" />
+                <ChevronRight size={44} strokeWidth={1} />
               </button>
             )}
           </motion.div>

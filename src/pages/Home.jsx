@@ -253,7 +253,7 @@ export default function Home() {
                                 duration: 0.45,
                                 ease: [0.22, 1, 0.36, 1],
                               }}
-                              className="object-contain drop-shadow-2xl"
+                              className="object-contain drop-shadow-2xl relative z-10"
                               style={{
                                 height: isPants ? "66vh" : "75vh",
                                 maxHeight: isPants ? "800px" : "900px",
@@ -264,10 +264,11 @@ export default function Home() {
                           <img
                             src={getImageByColor(product, colorMap[i])}
                             alt={product.name}
-                            className="object-contain drop-shadow-2xl"
+                            className="object-contain drop-shadow-2xl relative z-10"
                             style={{ height: "55vh", maxHeight: "600px" }}
                           />
                         )}
+                        
                       </motion.div>
                     );
                   })}
@@ -291,43 +292,94 @@ export default function Home() {
             </div>
 
             {/* PRODUCT INFO — compact, sits at bottom of content area */}
-            <div className="relative flex flex-col items-center text-center px-6 max-w-2xl pb-2 z-10" style={{ flexShrink: 0 }}>
-              <h1 className="text-4xl title md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3">
-                {language === "ar" && activeProduct.name_ar
-                  ? activeProduct.name_ar
-                  : activeProduct.name}
-              </h1>
-
-              <p className="text-sm md:text-base text-black/60 mb-4 md:mb-5">
-                {language === "ar" && activeProduct.summary_ar
-                  ? activeProduct.summary_ar
-                  : activeProduct.summary}
-              </p>
-
-              {/* COLORS */}
-              <div className="flex gap-5 mb-5 md:mb-6">
-                {activeProduct.availableColors.map((color, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setSelectedColor(color);
-                      setImageKey((k) => k + 1);
-                      setLastInteractionTime(Date.now());
+            <div className="relative flex flex-col items-center text-center px-6 max-w-2xl pb-2 z-10 w-full" style={{ flexShrink: 0 }}>
+              
+              {/* ANIMATED CONTENT CONTAINER (with fixed min-height to prevent button jumping) */}
+              <div className="min-h-[160px] md:min-h-[180px] w-full flex flex-col items-center justify-start">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeProduct.id}
+                    className="flex flex-col items-center w-full"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={{
+                      initial: { opacity: 0 },
+                      animate: { opacity: 1, transition: { duration: 0.1 } },
+                      exit: { opacity: 0, transition: { duration: 0.2 } }
                     }}
-                    className={`w-6 h-6 rounded-full transition ${
-                      selectedColor === color ? "scale-165 border-2 border-black" : ""
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
+                  >
+                    {/* TITLE */}
+                    <div className="overflow-visible mb-4 md:mb-5 pt-1">
+                      <motion.h1
+                        className="text-4xl title md:text-5xl lg:text-6xl font-bold"
+                        variants={{
+                          initial: { y: "100%", opacity: 0 },
+                          animate: { y: "0%", opacity: 1, transition: { delay: 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+                          exit: { y: "-50%", opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }
+                        }}
+                      >
+                        {language === "ar" && activeProduct.name_ar
+                          ? activeProduct.name_ar
+                          : activeProduct.name}
+                      </motion.h1>
+                    </div>
+
+                    {/* DESCRIPTION */}
+                    <div className="overflow-visible mb-4 md:mb-5">
+                      <motion.p
+                        className="text-base md:text-lg lg:text-xl text-black/70 tracking-wide font-medium"
+                        variants={{
+                          initial: { y: "100%", opacity: 0 },
+                          animate: { y: "0%", opacity: 1, transition: { delay: 0.25, duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+                          exit: { y: "-50%", opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }
+                        }}
+                      >
+                        {language === "ar" && activeProduct.summary_ar
+                          ? activeProduct.summary_ar
+                          : activeProduct.summary}
+                      </motion.p>
+                    </div>
+
+                    {/* COLORS */}
+                    <div className="overflow-visible mb-4 md:mb-5 pt-2">
+                      <motion.div
+                        className="flex gap-5"
+                        variants={{
+                          initial: { y: "100%", opacity: 0, scale: 0.8 },
+                          animate: { y: "0%", opacity: 1, scale: 1, transition: { delay: 0, duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+                          exit: { y: "-50%", opacity: 0, scale: 0.9, transition: { duration: 0.2, ease: "easeIn" } }
+                        }}
+                      >
+                        {activeProduct.availableColors.map((color, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              setSelectedColor(color);
+                              setImageKey((k) => k + 1);
+                              setLastInteractionTime(Date.now());
+                            }}
+                            className={`w-6 h-6 rounded-full transition ${
+                              selectedColor === color ? "scale-165 border-2 border-black" : ""
+                            }`}
+                            style={{ backgroundColor: color }}
+                          />
+                        ))}
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
-              <button
-                onClick={handleSeeMore}
-                className="px-10 py-3.5 rounded-full bg-[#1f2937] text-white text-sm tracking-wider uppercase hover:bg-red-500 transition cursor-pointer"
-              >
-                {t("seeMore")}
-              </button>
+              {/* FIXED BUTTON */}
+              <div className="overflow-visible mt-2 relative z-10">
+                <button
+                  onClick={handleSeeMore}
+                  className="px-10 py-3.5 rounded-full bg-[#1f2937] text-white text-sm tracking-wider uppercase hover:bg-red-500 transition cursor-pointer"
+                >
+                  {t("seeMore")}
+                </button>
+              </div>
             </div>
           </div>
         </>

@@ -124,7 +124,7 @@ function GooeyButton({ text, onClick }) {
   );
 }
 
-// ================== PRODUCT INFO (MODIFIED) ==================
+// ================== PRODUCT INFO (LETTER-BY-LETTER SWIPE UP) ==================
 function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
   const navigate = useNavigate();
 
@@ -157,68 +157,119 @@ function ProductInfo({ activeProduct, activeVariantImage, onVariantSelect }) {
   const activeImageUrl = activeVariantImage || activeProduct.image;
   const activeColor = activeProduct.variants?.find(v => v.image === activeImageUrl)?.color || activeProduct.color;
 
+  // Split product name into characters (preserve spaces as non-breaking)
+  const titleChars = activeProduct.name.split("");
+
+  // Calculate total title animation duration for staggering the description
+  const titleAnimDuration = titleChars.length * 0.04 + 0.5; // last char delay + animation duration
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={activeProduct.id}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5 }}
-        className="text-center w-full max-w-5xl mx-auto backdrop-blur-sm rounded-2xl p-6"
-      >
-        {/* PRODUCT TITLE */}
-        {/* PRODUCT TITLE */}
-        <motion.h2
-          className="text-xl sm:text-2xl title md:text-5xl lg:text-7xl font-bold tracking-wider text-gray-900 mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          {activeProduct.name}
-        </motion.h2>
-        {uniqueVariants.length > 0 && (
-          <div className="flex items-center  justify-center mb-4 gap-3 flex-shrink-0">
-            {uniqueVariants.map((variant) => (
-              <motion.button
-                key={variant.id}
-                onClick={() => {
-                  console.log('🎨 Color clicked:', variant.color, 'Image:', variant.image);
-                  onVariantSelect(variant.image, variant.color);
-                }}
-                className={`w-7 h-7 rounded-full border-2 transition-all duration-300 cursor-pointer ${getColorClass(variant.color)} ${variant.color === activeColor
-                  ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
-                  : 'hover:scale-105 opacity-70 hover:opacity-100'
-                  }`}
-                title={variant.color}
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.95 }}
-              />
-            ))}
-          </div>
-        )}
-        {/* DESCRIPTION WITH COLOR VARIANTS */}
-
-        {/* PRODUCT DESCRIPTION */}
-        <p className="text-gray-600 secondary text-sm sm:text-base md:text-lg leading-relaxed flex-1 text-center ">
-          {activeProduct.summary}
-        </p>
-
-        {/* VARIANT COLOR CIRCLES */}
-
-
-        {/* SEE MORE BUTTON */}
-        <div className="flex justify-center gap-4 w-full mt-4">
-          <GooeyButton
-            text="See More"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/product/${activeProduct.id}`);
+    <div className="text-center w-full max-w-5xl mx-auto backdrop-blur-sm rounded-2xl p-6">
+      {/* PRODUCT TITLE - Letter-by-letter Staggered Swipe Up */}
+      <div className="relative w-full flex items-center justify-center mb-4" style={{ minHeight: '6rem', paddingBottom: '0.5rem' }}>
+        <AnimatePresence mode="wait">
+          <motion.h2
+            key={activeProduct.id}
+            className="text-xl sm:text-2xl title md:text-5xl lg:text-7xl font-bold tracking-wider text-gray-900 m-0"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={{
+              hidden: {},
+              visible: {},
+              exit: { opacity: 0, y: -40, transition: { duration: 0.25 } },
             }}
-          />
+          >
+            {titleChars.map((char, i) => (
+              <motion.span
+                key={`${activeProduct.id}-char-${i}`}
+                style={{ display: "inline-block", whiteSpace: char === " " ? "pre" : "normal" }}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      delay: i * 0.04,
+                      duration: 0.5,
+                      ease: "easeOut",
+                    },
+                  },
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h2>
+        </AnimatePresence>
+      </div>
+
+      {uniqueVariants.length > 0 && (
+        <div className="flex items-center justify-center mb-6 gap-3 flex-shrink-0 relative z-10">
+          {uniqueVariants.map((variant) => (
+            <motion.button
+              key={variant.id}
+              onClick={() => {
+                console.log('🎨 Color clicked:', variant.color, 'Image:', variant.image);
+                onVariantSelect(variant.image, variant.color);
+              }}
+              className={`w-7 h-7 rounded-full border-2 transition-all duration-300 cursor-pointer ${getColorClass(variant.color)} ${variant.color === activeColor
+                ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
+                : 'hover:scale-105 opacity-70 hover:opacity-100'
+                }`}
+              title={variant.color}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
+            />
+          ))}
         </div>
-      </motion.div>
-    </AnimatePresence>
+      )}
+
+      {/* PRODUCT DESCRIPTION - Delayed smooth entry after title finishes */}
+      <div className="relative w-full flex items-center justify-center" style={{ minHeight: '3.5rem' }}>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={activeProduct.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              delay: Math.min(titleAnimDuration * 0.6, 0.5),
+              duration: 0.4,
+              ease: "easeOut",
+            }}
+            className="text-gray-600 secondary text-sm sm:text-base md:text-lg leading-relaxed text-center w-full m-0"
+          >
+            {activeProduct.summary}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+
+      {/* SEE MORE BUTTON - Delayed entry after description */}
+      <div className="relative w-full flex items-center justify-center mt-4" style={{ minHeight: '4rem' }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeProduct.id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              delay: Math.min(titleAnimDuration * 0.6, 0.5) + 0.15,
+              duration: 0.35,
+              ease: "easeOut",
+            }}
+          >
+            <GooeyButton
+              text="See More"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/product/${activeProduct.id}`);
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
