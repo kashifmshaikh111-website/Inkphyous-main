@@ -8,14 +8,14 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  
+
   // Development server settings (only used with npm run dev)
   server: {
     host: '0.0.0.0',
     port: 1122,
     open: true,
   },
-  
+
   // Production build settings
   build: {
     outDir: 'dist',
@@ -28,7 +28,7 @@ export default defineConfig({
       },
     },
   },
-  
+
   // Base URL for your site (important for deployment)
-  base: '/', // Change if deploying to a subdirectory like '/my-app/'
+  base: '/Inkphyous-main/', // Change if deploying to a subdirectory like '/my-app/'
 });
