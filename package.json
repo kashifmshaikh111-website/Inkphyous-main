@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://kashifmshaikh111-website.github.io/Inkphyous-main/",
+  "homepage": "https://inkphyous.github.io/Inkphyous-main/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
