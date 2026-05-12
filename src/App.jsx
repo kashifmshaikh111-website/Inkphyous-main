@@ -23,8 +23,8 @@ import "./App.css";
 
 function App() {
   const [showIntro, setShowIntro] = useState(() => {
-    const path = window.location.pathname;
-    return path === "/" || path === "/Inkphyous-main/" || path === "/Inkphyous-main";
+    const hash = window.location.hash;
+    return hash === "" || hash === "#/" || hash === "#";
   });
   const navigate = useNavigate();
   const location = useLocation();
