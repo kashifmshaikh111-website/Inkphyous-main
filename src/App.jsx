@@ -22,7 +22,10 @@ import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 
 function App() {
-  const [showIntro, setShowIntro] = useState(() => window.location.pathname === "/");
+  const [showIntro, setShowIntro] = useState(() => {
+    const path = window.location.pathname;
+    return path === "/" || path === "/Inkphyous-main/" || path === "/Inkphyous-main";
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
