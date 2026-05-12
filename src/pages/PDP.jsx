@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import products from "../Utils/Products";
 import { Plus, Heart, IndianRupee, ChevronLeft, ChevronRight, LayoutGrid, Square, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";

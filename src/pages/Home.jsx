@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, LayoutGrid, Layers, IndianRupee } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import products from "../Utils/Products";
