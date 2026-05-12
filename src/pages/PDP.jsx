@@ -231,14 +231,14 @@ function Accordion({ title, content, isOpen, onClick, type }) {
                 return (
                   <li key={index}>
                     {parts[0]}
-                    <a
-                      href="/legal?tab=shipping"
+                    <Link
+                      to="/legal?tab=shipping"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-red-500 underline cursor-pointer hover:text-red-700 transition-colors"
                     >
                       {keyword}
-                    </a>
+                    </Link>
                     {parts.slice(1).join(keyword)}
                   </li>
                 );

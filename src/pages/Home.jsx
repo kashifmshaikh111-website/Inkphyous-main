@@ -472,8 +472,8 @@ export default function Home() {
       {/* FOOTER — integrated into the Home page layout, pinned at bottom */}
       <div className="w-full flex justify-end items-center px-12 py-4" style={{ flexShrink: 0 }}>
         <div className="flex gap-8 text-[18px] font-semibold text-black/80">
-          <a href="/contact" className="hover:text-red-500 transition title">{t("contact")}</a>
-          <a href="/legal" className="hover:text-red-500 transition title">{t("legalities")}</a>
+          <Link to="/contact" className="hover:text-red-500 transition title">{t("contact")}</Link>
+          <Link to="/legal" className="hover:text-red-500 transition title">{t("legalities")}</Link>
           <a href="https://instagram.com/inkphyous" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition title">{t("social")}</a>
         </div>
       </div>
